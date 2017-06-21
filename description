@@ -1,0 +1,34 @@
+https://www.quora.com/What-is-the-meaning-of-capital-gain-capital-loss-and-fnlwgt-in-adult-dataset-from-UCI
+capital gains= income from investment sources, apart from wages/salary
+capital loss= losses from investment sources, apart from wages/salary
+fnlwgt= sampling weight, more here: SIPP Weighting
+
+http://scg.sdsu.edu/dataset-adult_r/
+
+
+    age – The age of the individual
+    type_employer – The type of employer the individual has. Whether they are government, military, private, an d so on.
+    fnlwgt – The \# of people the census takers believe that observation represents. We will be ignoring this variable
+    education – The highest level of education achieved for that individual
+    education_num – Highest level of education in numerical form
+    marital – Marital status of the individual
+    occupation – The occupation of the individual
+    relationship – A bit more difficult to explain. Contains family relationship values like husband, father, and so on, but only contains one per observation. I’m not sure what this is supposed to represent
+    race – descriptions of the individuals race. Black, White, Eskimo, and so on
+    sex – Biological Sex
+    capital_gain – Capital gains recorded
+    capital_loss – Capital Losses recorded
+    hr_per_week – Hours worked per week
+    country – Country of origin for person
+    income – Boolean Variable. Whether or not the person makes more than \$50,000 per annum income.
+
+
+https://mathematicaforprediction.wordpress.com/2014/03/30/classification-and-association-rules-for-census-income-data/
+
+https://www.mis.nsysu.edu.tw/db-book/DMProject2007Spring/6/project.pdf
+
+https://cseweb.ucsd.edu/~jmcauley/cse190/reports/sp15/024.pdf
+
+https://cseweb.ucsd.edu/~jmcauley/cse190/reports/sp15/048.pdf
+
+

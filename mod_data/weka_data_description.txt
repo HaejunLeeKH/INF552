@@ -1,0 +1,19 @@
+@RELATION census_income
+
+@ATTRIBUTE age	integer
+@ATTRIBUTE workclass 	string
+@ATTRIBUTE fnlwgt 	integer
+@ATTRIBUTE education	string
+@ATTRIBUTE education-num	integer
+@ATTRIBUTE marital-status	string
+@ATTRIBUTE occupation	string
+@ATTRIBUTE relationship	string
+@ATTRIBUTE race	string
+@ATTRIBUTE sex	string
+@ATTRIBUTE capital-gain	integer
+@ATTRIBUTE capital-loss	integer
+@ATTRIBUTE hours-per-week	integer
+@ATTRIBUTE native-country	string
+@ATTRIBUTE class 	{>50K, <=50K}
+
+@DATA

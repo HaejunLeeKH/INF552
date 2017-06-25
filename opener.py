@@ -26,8 +26,9 @@ def read(path):
         if not unknown:
             t1[len(t1)+1] = line
         unknown = False
-
+    # temp: original data, t1: without unknown data, t2: unknown data
     return temp, t1, t2
+
 
 def unique_params(data):
     """
@@ -47,3 +48,43 @@ def unique_params(data):
     temp_dic = dict(zip(keys, temp))
 
     return temp_dic
+
+
+def age_sep(data_dic):
+
+    b_25 = {}
+    b_2650 = {}
+    b_51 = {}
+    b_25_cnt = 1
+    b_2650_cnt = 1
+    b_51_cnt = 1
+
+    for v in data_dic.values():
+        if int(v[0]) < 25:
+            b_25[b_25_cnt] = v
+            b_25_cnt += 1
+
+        elif int(v[0]) >= 25 and int(v[0]) <= 50:
+            b_2650[b_2650_cnt] = v
+            b_2650_cnt += 1
+
+        elif int(v[0]) > 50:
+            b_51[b_51_cnt] = v
+            b_51_cnt += 1
+
+    print(len(b_25), len(b_2650), len(b_51))
+    return b_25, b_2650, b_51
+
+
+def write(data_dic, path):
+    with open(path, 'w') as writer:
+        for k in data_dic.keys():
+            sentence = ""
+            comma = ","
+            for v in data_dic[k]:
+                sentence += str(v)
+                sentence += comma
+            sentence = sentence.rstrip(",")
+            sentence += "\n"
+            writer.write(sentence)
+        writer.close()

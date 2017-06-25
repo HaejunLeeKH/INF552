@@ -1,3 +1,4 @@
+% Census income data from UCI machine learning data set
 @RELATION census_income
 
 @ATTRIBUTE age	integer

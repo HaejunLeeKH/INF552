@@ -1,0 +1,60 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.rules.DecisionTable -X 1 -S "weka.attributeSelection.BestFirst -D 1 -N 5"
+Relation:     census_income-weka.filters.unsupervised.attribute.Remove-R2-4,7,9,14
+Instances:    30162
+Attributes:   9
+              age
+              education-num
+              marital-status
+              relationship
+              sex
+              capital-gain
+              capital-loss
+              hours-per-week
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Decision Table:
+
+Number of training instances: 30162
+Number of Rules : 546
+Non matches covered by Majority class.
+	Best first.
+	Start set: no attributes
+	Search direction: forward
+	Stale search after 5 node expansions
+	Total number of subsets evaluated: 41
+	Merit of best subset found:   85.415
+Evaluation (for feature selection): CV (leave one out) 
+Feature set: 2,4,6,7,9
+
+Time taken to build model: 1.45 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances       25674               85.1204 %
+Incorrectly Classified Instances      4488               14.8796 %
+Kappa statistic                          0.5635
+Mean absolute error                      0.2121
+Root mean squared error                  0.3221
+Relative absolute error                 56.7217 %
+Root relative squared error             74.4895 %
+Total Number of Instances            30162     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.569    0.055    0.773      0.569    0.656      0.574    0.896     0.778     >50K
+                 0.945    0.431    0.869      0.945    0.905      0.574    0.896     0.959     <=50K
+Weighted Avg.    0.851    0.338    0.845      0.851    0.843      0.574    0.896     0.914     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+  4271  3237 |     a = >50K
+  1251 21403 |     b = <=50K
+

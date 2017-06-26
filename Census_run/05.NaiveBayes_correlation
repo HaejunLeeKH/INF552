@@ -1,0 +1,108 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.bayes.NaiveBayes 
+Relation:     census_income-weka.filters.unsupervised.attribute.Remove-R2-4,7,9,14
+Instances:    30162
+Attributes:   9
+              age
+              education-num
+              marital-status
+              relationship
+              sex
+              capital-gain
+              capital-loss
+              hours-per-week
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Naive Bayes Classifier
+
+                              Class
+Attribute                      >50K     <=50K
+                             (0.25)    (0.75)
+==============================================
+age
+  mean                       44.0105   36.5253
+  std. dev.                  10.3018   13.5653
+  weight sum                    7508     22654
+  precision                   1.0282    1.0282
+
+education-num
+  mean                       11.6064    9.6291
+  std. dev.                   2.3683    2.4135
+  weight sum                    7508     22654
+  precision                        1         1
+
+marital-status
+  Married-civ-spouse          6400.0    7667.0
+  Divorced                     453.0    3763.0
+  Never-married                471.0    9257.0
+  Separated                     67.0     874.0
+  Widowed                       81.0     748.0
+  Married-spouse-absent         32.0     340.0
+  Married-AF-spouse             11.0      12.0
+  [total]                     7515.0   22661.0
+
+relationship
+  Wife                         695.0     713.0
+  Own-child                     65.0    4403.0
+  Husband                     5680.0    6785.0
+  Not-in-family                824.0    6904.0
+  Other-relative                36.0     855.0
+  Unmarried                    214.0    3000.0
+  [total]                     7514.0   22660.0
+
+sex
+  Female                      1113.0    8671.0
+  Male                        6397.0   13985.0
+  [total]                     7510.0   22656.0
+
+capital-gain
+  mean                     3968.4907  150.6106
+  std. dev.               14401.2781  941.5874
+  weight sum                    7508     22654
+  precision                 854.6923  854.6923
+
+capital-loss
+  mean                      193.8783    53.429
+  std. dev.                 593.0809  310.1877
+  weight sum                    7508     22654
+  precision                  48.9438   48.9438
+
+hours-per-week
+  mean                       45.6696   39.3264
+  std. dev.                  10.7039   11.9594
+  weight sum                    7508     22654
+  precision                   1.0538    1.0538
+
+
+
+Time taken to build model: 0.02 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances       24036               79.6897 %
+Incorrectly Classified Instances      6126               20.3103 %
+Kappa statistic                          0.3399
+Mean absolute error                      0.1995
+Root mean squared error                  0.4011
+Relative absolute error                 53.3486 %
+Root relative squared error             92.7702 %
+Total Number of Instances            30162     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.327    0.047    0.696      0.327    0.445      0.376    0.877     0.705     >50K
+                 0.953    0.673    0.810      0.953    0.876      0.376    0.877     0.957     <=50K
+Weighted Avg.    0.797    0.517    0.782      0.797    0.768      0.376    0.877     0.894     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+  2456  5052 |     a = >50K
+  1074 21580 |     b = <=50K
+

@@ -1,0 +1,88 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.bayes.NaiveBayes 
+Relation:     census_income-weka.filters.unsupervised.attribute.Remove-R1-4,7,9-10,13-14
+Instances:    30162
+Attributes:   6
+              education-num
+              marital-status
+              relationship
+              capital-gain
+              capital-loss
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Naive Bayes Classifier
+
+                              Class
+Attribute                      >50K     <=50K
+                             (0.25)    (0.75)
+==============================================
+education-num
+  mean                       11.6064    9.6291
+  std. dev.                   2.3683    2.4135
+  weight sum                    7508     22654
+  precision                        1         1
+
+marital-status
+  Married-civ-spouse          6400.0    7667.0
+  Divorced                     453.0    3763.0
+  Never-married                471.0    9257.0
+  Separated                     67.0     874.0
+  Widowed                       81.0     748.0
+  Married-spouse-absent         32.0     340.0
+  Married-AF-spouse             11.0      12.0
+  [total]                     7515.0   22661.0
+
+relationship
+  Wife                         695.0     713.0
+  Own-child                     65.0    4403.0
+  Husband                     5680.0    6785.0
+  Not-in-family                824.0    6904.0
+  Other-relative                36.0     855.0
+  Unmarried                    214.0    3000.0
+  [total]                     7514.0   22660.0
+
+capital-gain
+  mean                     3968.4907  150.6106
+  std. dev.               14401.2781  941.5874
+  weight sum                    7508     22654
+  precision                 854.6923  854.6923
+
+capital-loss
+  mean                      193.8783    53.429
+  std. dev.                 593.0809  310.1877
+  weight sum                    7508     22654
+  precision                  48.9438   48.9438
+
+
+
+Time taken to build model: 0.03 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances       23888               79.199  %
+Incorrectly Classified Instances      6274               20.801  %
+Kappa statistic                          0.3201
+Mean absolute error                      0.206 
+Root mean squared error                  0.4213
+Relative absolute error                 55.1024 %
+Root relative squared error             97.4257 %
+Total Number of Instances            30162     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.310    0.048    0.680      0.310    0.426      0.357    0.868     0.691     >50K
+                 0.952    0.690    0.806      0.952    0.873      0.357    0.868     0.952     <=50K
+Weighted Avg.    0.792    0.530    0.775      0.792    0.762      0.357    0.868     0.887     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+  2330  5178 |     a = >50K
+  1096 21558 |     b = <=50K
+

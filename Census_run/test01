@@ -1,0 +1,162 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.bayes.NaiveBayesMultinomialText -P 0 -M 3.0 -norm 1.0 -lnorm 2.0 -stopwords-handler weka.core.stopwords.Null -tokenizer "weka.core.tokenizers.WordTokenizer -delimiters \" \\r\\n\\t.,;:\\\'\\\"()?!\"" -stemmer weka.core.stemmers.NullStemmer
+Relation:     census_income
+Instances:    30162
+Attributes:   15
+              age
+              workclass
+              fnlwgt
+              education
+              education-num
+              marital-status
+              occupation
+              relationship
+              race
+              sex
+              capital-gain
+              capital-loss
+              hours-per-week
+              native-country
+              class
+Test mode:    user supplied test set:  size unknown (reading incrementally)
+
+=== Classifier model (full training set) ===
+
+Dictionary size: 98
+
+The independent frequency of a class
+--------------------------------------
+>50K	7509.0
+<=50K	22655.0
+
+The frequency of a word given the class
+-----------------------------------------
+       >50K	      <=50K	
+        7.0	       14.0	Hong
+        8.0	       12.0	Cambodia
+<laplace=1>	       15.0	Outlying-US
+       84.0	     1268.0	Handlers-cleaners
+       31.0	       57.0	England
+     6397.0	    13985.0	Male
+      367.0	     2452.0	Black
+        5.0	       31.0	Portugal
+        9.0	       22.0	Greece
+      824.0	     6904.0	Not-in-family
+       19.0	       25.0	Iran
+      345.0	      964.0	Assoc-voc
+      366.0	      579.0	Federal-gov
+     1812.0	     2228.0	Prof-specialty
+      695.0	      713.0	Wife
+      214.0	     3000.0	Unmarried
+        4.0	       61.0	Guatemala
+       81.0	      748.0	Widowed
+     4877.0	    17411.0	Private
+        3.0	       16.0	Laos
+       32.0	      340.0	Married-spouse-absent
+       41.0	       61.0	India
+       37.0	       72.0	Canada
+       20.0	       24.0	Taiwan
+       67.0	      874.0	Separated
+       11.0	       71.0	Jamaica
+        3.0	       29.0	Peru
+      345.0	      936.0	State-gov
+       45.0	       85.0	Germany
+       30.0	      349.0	12th
+      453.0	     3763.0	Divorced
+      601.0	      475.0	Self-emp-inc
+     1938.0	     2056.0	Exec-managerial
+<laplace=1>	       15.0	Without-pay
+        4.0	       15.0	Thailand
+      715.0	     1786.0	Self-emp-not-inc
+<laplace=1>	        9.0	Armed-Forces
+      211.0	      435.0	Protective-serv
+        6.0	       60.0	Vietnam
+      971.0	     2615.0	Sales
+       12.0	       46.0	Poland
+     1113.0	     8671.0	Female
+     2127.0	     2919.0	Bachelors
+      919.0	      710.0	Masters
+        3.0	       17.0	Trinadad&Tobago
+      116.0	      875.0	Farming-fishing
+     6996.0	    20510.0	United-States
+       15.0	       58.0	South
+<laplace=1>	      143.0	Priv-house-serv
+        7.0	      146.0	1st-4th
+       26.0	      431.0	9th
+      471.0	     9257.0	Never-married
+       26.0	       68.0	Cuba
+        3.0	       66.0	Dominican-Republic
+      279.0	      635.0	Tech-support
+      320.0	     1254.0	Transport-moving
+       22.0	      211.0	Other
+       60.0	      990.0	11th
+      610.0	     1459.0	Local-gov
+<laplace=1>	       15.0	Guam-USVI-etc
+        7.0	       11.0	Yugoslavia
+        5.0	       24.0	Ecuador
+      407.0	      137.0	Prof-school
+        4.0	       11.0	Hungary
+       24.0	       37.0	Japan
+       13.0	      277.0	5th-6th
+      249.0	      648.0	Asian-Pac-Islander
+        3.0	       55.0	Columbia
+       25.0	       45.0	Italy
+<laplace=1>	       12.0	Honduras
+      499.0	     3224.0	Adm-clerical
+      909.0	     3123.0	Craft-repair
+        5.0	       39.0	Haiti
+       60.0	      762.0	10th
+        3.0	       10.0	Scotland
+     6400.0	     7667.0	Married-civ-spouse
+       65.0	     4403.0	Own-child
+       21.0	       49.0	China
+        6.0	       20.0	Ireland
+      246.0	     1722.0	Machine-op-inspct
+       10.0	       92.0	El-Salvador
+       13.0	       16.0	France
+     1618.0	     8224.0	HS-grad
+       35.0	      253.0	Amer-Indian-Eskimo
+       61.0	      129.0	Philippines
+<laplace=1>	       46.0	Preschool
+       11.0	       12.0	Married-AF-spouse
+       36.0	      855.0	Other-relative
+     1337.0	     5343.0	Some-college
+      281.0	       96.0	Doctorate
+       13.0	       98.0	Puerto-Rico
+     5680.0	     6785.0	Husband
+     6840.0	    19095.0	White
+        3.0	       32.0	Nicaragua
+      257.0	      753.0	Assoc-acdm
+       34.0	      578.0	Mexico
+      133.0	     3081.0	Other-service
+       36.0	      523.0	7th-8th
+
+
+Time taken to build model: 0.16 seconds
+
+=== Predictions on test set ===
+
+    inst#     actual  predicted error prediction
+
+=== Evaluation on test set ===
+
+Time taken to test model on supplied test set: 0.01 seconds
+
+=== Summary ===
+
+Total Number of Instances                0     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.000    0.000    0.000      0.000    0.000      0.000    ?         ?         >50K
+                 0.000    0.000    0.000      0.000    0.000      0.000    ?         ?         <=50K
+Weighted Avg.    NaN      NaN      NaN        NaN      NaN        NaN      NaN       NaN       
+
+=== Confusion Matrix ===
+
+ a b   <-- classified as
+ 0 0 | a = >50K
+ 0 0 | b = <=50K
+

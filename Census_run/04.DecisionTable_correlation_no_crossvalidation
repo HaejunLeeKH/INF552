@@ -1,0 +1,63 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.rules.DecisionTable -X 1 -S "weka.attributeSelection.BestFirst -D 1 -N 5"
+Relation:     census_income-weka.filters.unsupervised.attribute.Remove-R2-4,7,9,14
+Instances:    30162
+Attributes:   9
+              age
+              education-num
+              marital-status
+              relationship
+              sex
+              capital-gain
+              capital-loss
+              hours-per-week
+              class
+Test mode:    user supplied test set:  size unknown (reading incrementally)
+
+=== Classifier model (full training set) ===
+
+Decision Table:
+
+Number of training instances: 30162
+Number of Rules : 546
+Non matches covered by Majority class.
+	Best first.
+	Start set: no attributes
+	Search direction: forward
+	Stale search after 5 node expansions
+	Total number of subsets evaluated: 41
+	Merit of best subset found:   85.415
+Evaluation (for feature selection): CV (leave one out) 
+Feature set: 2,4,6,7,9
+
+Time taken to build model: 1.18 seconds
+
+=== Evaluation on test set ===
+
+Time taken to test model on supplied test set: 0.06 seconds
+
+=== Summary ===
+
+Correctly Classified Instances       12834               85.2191 %
+Incorrectly Classified Instances      2226               14.7809 %
+Kappa statistic                          0.5641
+Mean absolute error                      0.2112
+Root mean squared error                  0.3205
+Relative absolute error                 56.7264 %
+Root relative squared error             74.4582 %
+Total Number of Instances            15060     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.573    0.057    0.766      0.573    0.656      0.574    0.899     0.762     >50K
+                 0.943    0.427    0.871      0.943    0.906      0.574    0.899     0.958     <=50K
+Weighted Avg.    0.852    0.336    0.846      0.852    0.844      0.574    0.899     0.910     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+  2120  1580 |     a = >50K
+   646 10714 |     b = <=50K
+

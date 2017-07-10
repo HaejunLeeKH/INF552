@@ -1,0 +1,2757 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[    134502,       2748]
+NotebookOptionsPosition[    128509,       2567]
+NotebookOutlinePosition[    130126,       2617]
+CellTagsIndexPosition[    129790,       2605]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+The Causal Interpretation of Exciting an Atom by Absorption of Intense Light\
+\>", "DemoTitle",
+ CellChangeTimes->{{3.573193825176288*^9, 3.573193829201095*^9}, {
+   3.5733553343299127`*^9, 3.5733553356871147`*^9}, 3.57566680426509*^9}],
+
+Cell["", "InitializationSection"],
+
+Cell[CellGroupData[{
+
+Cell["", "ManipulateSection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Quiet", "@", 
+    RowBox[{"TDPot", "[", 
+     RowBox[{"e0", ",", "steps", ",", "lambda", ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"250", ",", "400"}], "}"}]}]}], "]"}]}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"steps", ",", "401", ",", "\"\<time steps\>\""}], "}"}], ",", 
+     "1", ",", "401", ",", "20", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"e0", ",", "0.2", ",", "\"\<perturbation potential\>\""}], 
+      "}"}], ",", "0.1", ",", "2", ",", "0.05", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "lambda", ",", "0.55", ",", "\"\<frequency correction factor\>\""}], 
+      "}"}], ",", "0.1", ",", "2.2", ",", "0.05", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "}"}], ",", 
+   RowBox[{"ControlPlacement", "\[Rule]", "Top"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"SynchronousUpdating", "\[Rule]", "False"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"TrackedSymbols", "\[RuleDelayed]", 
+    RowBox[{"{", 
+     RowBox[{"steps", ",", "e0", ",", "lambda"}], "}"}]}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Initialization", "\[RuleDelayed]", 
+    RowBox[{"(", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"TDPot", "[", 
+       RowBox[{"e0_", ",", "steps_", ",", "lambda_", ",", "opts___"}], "]"}], 
+      ":=", 
+      RowBox[{"Quiet", "[", 
+       RowBox[{"Module", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+          "n", ",", "dx", ",", "hbar", ",", "m", ",", "dt", ",", "a", ",", 
+           "b", ",", "xBeg", ",", "TimeEnd", ",", "psi", ",", "Pos", ",", "V",
+            ",", "ps", ",", "blist", ",", "colors", ",", "x", ",", "all", ",",
+            "VPlot", ",", "nr", ",", "newx", ",", "PsiN", ",", "PsiAbs", ",", 
+           "PsiAbsOld", ",", "PsiAbsN", ",", "qpot", ",", "vx", ",", "xort", 
+           ",", "PsiNI", ",", "PsiOld", ",", "Traj", ",", "i", ",", "j", ",", 
+           "AR", ",", "BColor"}], "}"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"n", "=", "70"}], ";", 
+          RowBox[{"dx", "=", 
+           FractionBox["1.0", 
+            RowBox[{"n", "-", "1"}]]}], ";", 
+          RowBox[{"hbar", "=", 
+           RowBox[{"m", "=", "1"}]}], ";", 
+          RowBox[{"dt", "=", 
+           RowBox[{
+            FractionBox[
+             RowBox[{"m", " ", 
+              SuperscriptBox["dx", "2"]}], "hbar"], "*", "15"}]}], ";", 
+          RowBox[{"a", "=", 
+           FractionBox[
+            RowBox[{"\[ImaginaryI]", " ", "hbar"}], "dt"]}], ";", 
+          RowBox[{"b", "=", 
+           FractionBox[
+            SuperscriptBox["hbar", "2"], 
+            RowBox[{"4", " ", "m", " ", 
+             SuperscriptBox["dx", "2"]}]]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"xBeg", "=", "0.5"}], ";", " ", 
+          RowBox[{"TimeEnd", "=", "401"}], ";", 
+          RowBox[{"AR", "=", 
+           FractionBox["5", "3"]}], ";", 
+          RowBox[{"BColor", "=", "Black"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"psi", "=", 
+           RowBox[{"Table", "[", " ", 
+            RowBox[{
+             RowBox[{"Cos", "[", " ", 
+              RowBox[{"Pi", 
+               RowBox[{"(", 
+                RowBox[{"x", "-", "0.5"}], ")"}]}], "]"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"x", ",", "0", ",", "1", ",", "dx"}], "}"}]}], "]"}]}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"Pos", "=", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"xBeg", "+", "i"}], ")"}], "n"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", 
+               RowBox[{"-", "0.3"}], ",", "0.3", ",", 
+               RowBox[{"0.3", "/", "3"}]}], "}"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"colors", "=", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{"Blend", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"Orange", ",", "Green"}], "}"}], ",", "j"}], "]"}], 
+             ",", 
+             RowBox[{"{", 
+              RowBox[{"j", ",", "0", ",", "1", ",", 
+               RowBox[{"1", "/", 
+                RowBox[{"Length", "[", "Pos", "]"}]}]}], "}"}]}], "]"}]}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"ps", "=", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"Thick", ",", 
+               RowBox[{"colors", "[", 
+                RowBox[{"[", "j", "]"}], "]"}]}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"j", ",", "1", ",", 
+               RowBox[{"Length", "[", "Pos", "]"}], ",", "1"}], "}"}]}], 
+            "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"blist", "=", 
+           RowBox[{"Table", "[", 
+            RowBox[{"b", ",", 
+             RowBox[{"{", 
+              RowBox[{"n", "-", "1"}], "}"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"For", "[", 
+            RowBox[{
+             RowBox[{"i", "=", "1"}], ",", 
+             RowBox[{"i", "\[LessEqual]", "TimeEnd"}], ",", 
+             RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+             RowBox[{"{", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"V", "=", 
+                RowBox[{"Table", "[", 
+                 RowBox[{
+                  RowBox[{"e0", "*", "n", "*", 
+                   RowBox[{"(", 
+                    RowBox[{"x", "-", "0.5"}], ")"}], "*", 
+                   RowBox[{"Sin", "[", 
+                    RowBox[{"lambda", "*", "3", "*", 
+                    RowBox[{
+                    RowBox[{"Pi", "^", "2"}], "/", "2"}], "*", "i", "*", 
+                    "dt"}], "]"}]}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"x", ",", "0", ",", "1", ",", "dx"}], "}"}]}], 
+                 "]"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"VPlot", "[", "i", "]"}], "=", "V"}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"psi", "=", 
+                RowBox[{"LinearSolve", "[", 
+                 RowBox[{
+                  RowBox[{"SparseArray", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Band", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "2"}], "}"}], "]"}], "\[Rule]", 
+                    "blist"}], ",", 
+                    RowBox[{
+                    RowBox[{"Band", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "1"}], "}"}], "]"}], "\[Rule]", 
+                    RowBox[{"a", "-", 
+                    RowBox[{"2", " ", "b"}], "-", 
+                    RowBox[{
+                    FractionBox["1", "2"], " ", 
+                    RowBox[{
+                    "V", "\[LeftDoubleBracket]", "All", 
+                    "\[RightDoubleBracket]"}]}]}]}], ",", 
+                    RowBox[{
+                    RowBox[{"Band", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"2", ",", "1"}], "}"}], "]"}], "\[Rule]", 
+                    "blist"}]}], "}"}], "]"}], ",", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"a", "+", 
+                    RowBox[{"2", " ", "b"}], "+", 
+                    RowBox[{
+                    FractionBox["1", "2"], " ", 
+                    RowBox[{
+                    "V", "\[LeftDoubleBracket]", "All", 
+                    "\[RightDoubleBracket]"}]}]}], ")"}], " ", 
+                    RowBox[{
+                    "psi", "\[LeftDoubleBracket]", "All", 
+                    "\[RightDoubleBracket]"}]}], "-", 
+                   RowBox[{"b", " ", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"2", 
+                    RowBox[{
+                    "psi", "\[LeftDoubleBracket]", "j", 
+                    "\[RightDoubleBracket]"}]}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"j", ",", "1", ",", "n"}], "}"}]}], "]"}]}]}]}], 
+                 "]"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"PsiN", "[", "i", "]"}], "=", "psi"}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"PsiAbs", "[", "i", "]"}], "=", 
+                RowBox[{"psi", "*", 
+                 RowBox[{"Conjugate", "[", "psi", "]"}]}]}], ";", " ", 
+               "\[IndentingNewLine]", 
+               RowBox[{"PsiAbsOld", "=", 
+                RowBox[{"Partition", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"i1", ",", 
+                    RowBox[{
+                    RowBox[{"PsiAbs", "[", "i", "]"}], "[", 
+                    RowBox[{"[", "i1", "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"i1", ",", "1", ",", "n"}], "}"}]}], "]"}], "//", 
+                   "Flatten"}], ",", "2"}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"PsiAbsN", "=", 
+                RowBox[{"Interpolation", "[", 
+                 RowBox[{"PsiAbsOld", ",", 
+                  RowBox[{"Method", "\[Rule]", "\"\<Spline\>\""}]}], "]"}]}], 
+               ";", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"qpot", "[", "x_", "]"}], "[", "i", "]"}], "=", 
+                RowBox[{
+                 RowBox[{"-", 
+                  RowBox[{"D", "[", 
+                   RowBox[{
+                    SqrtBox[
+                    RowBox[{"PsiAbsN", "[", "x", "]"}]], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x", ",", "2"}], "}"}]}], "]"}]}], "/", 
+                 RowBox[{"(", 
+                  SqrtBox[
+                   RowBox[{"PsiAbsN", "[", "x", "]"}]], ")"}]}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"Do", "[", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"{", "\[IndentingNewLine]", " ", 
+                  RowBox[{
+                   RowBox[{"xort", "=", 
+                    RowBox[{"Round", "[", 
+                    RowBox[{
+                    "Pos", "\[LeftDoubleBracket]", "nr", 
+                    "\[RightDoubleBracket]"}], "]"}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"PsiOld", "=", 
+                    RowBox[{"Partition", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"i1", ",", 
+                    RowBox[{"psi", "[", 
+                    RowBox[{"[", "i1", "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"i1", ",", "1", ",", "n"}], "}"}]}], "]"}], "//", 
+                    "Flatten"}], ",", "2"}], "]"}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"PsiNI", "=", 
+                    RowBox[{"Interpolation", "[", "PsiOld", "]"}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"vx", "[", "x_", "]"}], "=", 
+                    RowBox[{
+                    RowBox[{"Im", "[", 
+                    RowBox[{
+                    RowBox[{"D", "[", 
+                    RowBox[{
+                    RowBox[{"PsiNI", "[", "x", "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x", ",", "1"}], "}"}]}], "]"}], "/", 
+                    RowBox[{"PsiNI", "[", "x", "]"}]}], "]"}], "/", "dx"}]}], 
+                   ";", "\n", "\t\t\t\t\t\t", 
+                   RowBox[{"newx", "=", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Pos", "[", 
+                    RowBox[{"[", "nr", "]"}], "]"}], "*", "dx"}], " ", "+", 
+                    RowBox[{
+                    FractionBox["20", "40"], "*", 
+                    RowBox[{"vx", "[", "xort", "]"}], "*", "dt"}]}]}], ";", 
+                   "\[IndentingNewLine]", "\t\t\t\t\t", 
+                   RowBox[{
+                    RowBox[{"Pos", "[", 
+                    RowBox[{"[", "nr", "]"}], "]"}], "=", 
+                    RowBox[{"newx", "/", "dx"}]}], ";", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"Traj", "[", 
+                    RowBox[{"i", ",", "nr"}], "]"}], "=", 
+                    RowBox[{"newx", "*", "n"}]}], ";"}], 
+                  "\[IndentingNewLine]", "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"nr", ",", "1", ",", 
+                   RowBox[{"Length", "[", "Pos", "]"}], ",", "1"}], "}"}]}], 
+                "]"}]}], "\[IndentingNewLine]", "}"}]}], "]"}], 
+           "\[IndentingNewLine]", 
+           RowBox[{"all", "=", 
+            RowBox[{"Join", "[", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Abs", "[", 
+                 RowBox[{"PsiN", "[", "i", "]"}], "]"}], "^", "2"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"i", ",", "1", ",", "TimeEnd", ",", "1"}], "}"}]}], 
+              "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"GraphicsRow", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"Show", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"ListPlot", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"VPlot", "[", "steps", "]"}], "/", "5"}], ",", 
+                    RowBox[{"Joined", "\[Rule]", "True"}], ",", 
+                    RowBox[{"PlotRange", "\[Rule]", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "2"}], ",", "3"}], "}"}]}], ",", 
+                    RowBox[{"Axes", "\[Rule]", "False"}], ",", 
+                    RowBox[{"AspectRatio", "\[Rule]", "AR"}], ",", 
+                    RowBox[{"PlotStyle", "\[Rule]", 
+                    RowBox[{"{", 
+                    RowBox[{"Thick", ",", "Blue"}], "}"}]}]}], "]"}], ",", 
+                  RowBox[{"ListPlot", "[", 
+                   RowBox[{
+                    RowBox[{"Abs", "[", 
+                    RowBox[{"PsiN", "[", "steps", "]"}], "]"}], ",", 
+                    RowBox[{"Joined", "\[Rule]", "True"}], ",", 
+                    RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+                    RowBox[{"PlotStyle", "\[Rule]", 
+                    RowBox[{"{", 
+                    RowBox[{"Thick", ",", "Orange"}], "}"}]}], ",", 
+                    RowBox[{"Axes", "\[Rule]", "False"}], ",", 
+                    RowBox[{"AspectRatio", "\[Rule]", "AR"}]}], "]"}], ",", 
+                  RowBox[{"Plot", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"qpot", "[", "x", "]"}], "[", "steps", "]"}], "-",
+                     "0.2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x", ",", "10", ",", 
+                    RowBox[{"n", "-", "10"}]}], "}"}], ",", 
+                    RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+                    RowBox[{"PlotStyle", "\[Rule]", 
+                    RowBox[{"{", 
+                    RowBox[{"Thick", ",", "Red"}], "}"}]}], ",", 
+                    RowBox[{"Axes", "\[Rule]", "False"}], ",", 
+                    RowBox[{"AspectRatio", "\[Rule]", "AR"}]}], "]"}], ",", 
+                  RowBox[{"Graphics", "[", 
+                   RowBox[{
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"PointSize", "[", "Large", "]"}], ",", 
+                    RowBox[{"colors", "[", 
+                    RowBox[{"[", "nr", "]"}], "]"}], ",", 
+                    RowBox[{"Point", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Traj", "[", 
+                    RowBox[{"steps", ",", "nr"}], "]"}], ",", "0.1"}], "}"}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"nr", ",", "1", ",", 
+                    RowBox[{"Length", "[", "Pos", "]"}], ",", "1"}], "}"}]}], 
+                    "]"}], ",", 
+                    RowBox[{"AspectRatio", "\[Rule]", "AR"}]}], "]"}]}], 
+                 "}"}], ",", 
+                RowBox[{"Background", "\[Rule]", "BColor"}]}], "]"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"Show", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"ListDensityPlot", "[", 
+                   RowBox[{"all", ",", 
+                    RowBox[{"MaxPlotPoints", "\[Rule]", "50"}], ",", 
+                    RowBox[{"Frame", "\[Rule]", "False"}], ",", 
+                    RowBox[{
+                    "ColorFunction", "\[Rule]", "\"\<ThermometerColors\>\""}],
+                     ",", 
+                    RowBox[{"AspectRatio", "\[Rule]", "AR"}], ",", 
+                    RowBox[{
+                    "PerformanceGoal", "\[Rule]", "\"\<Quality\>\""}]}], 
+                   "]"}], ",", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"ListPlot", "[", 
+                    RowBox[{
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Traj", "[", 
+                    RowBox[{"i", ",", "j"}], "]"}], ",", "i"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"i", ",", "1", ",", "steps", ",", "1"}], "}"}]}], 
+                    "]"}], ",", 
+                    RowBox[{"Joined", "\[Rule]", "True"}], ",", 
+                    RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+                    RowBox[{"PlotStyle", "\[Rule]", 
+                    RowBox[{"{", 
+                    RowBox[{"Thick", ",", 
+                    RowBox[{"colors", "[", 
+                    RowBox[{"[", "j", "]"}], "]"}]}], "}"}]}], ",", 
+                    RowBox[{"Axes", "\[Rule]", "False"}], ",", 
+                    RowBox[{"AspectRatio", "\[Rule]", "AR"}]}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"j", ",", "1", ",", 
+                    RowBox[{"Length", "[", "Pos", "]"}], ",", "1"}], "}"}]}], 
+                   "]"}]}], "}"}], " ", ",", 
+                RowBox[{"PlotRange", "->", "All"}], ",", 
+                RowBox[{"Axes", "\[Rule]", "False"}], ",", 
+                RowBox[{"AspectRatio", "\[Rule]", "AR"}]}], "]"}]}], "}"}], 
+            ",", 
+            RowBox[{"Background", "\[Rule]", 
+             RowBox[{"{", 
+              RowBox[{"BColor", ",", "BColor"}], "}"}]}], ",", 
+            RowBox[{"ImageSize", "\[Rule]", 
+             RowBox[{"{", "500", "}"}]}], ",", " ", 
+            RowBox[{"AspectRatio", "\[Rule]", 
+             RowBox[{"AR", "/", "2"}]}]}], "]"}]}]}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", "]"}], "]"}]}], "\[IndentingNewLine]", 
+     ")"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{
+  3.5539986375134535`*^9, {3.553998806634948*^9, 3.5539988939639006`*^9}, {
+   3.5539989303587637`*^9, 3.5539992017992373`*^9}, {3.553999288254588*^9, 
+   3.5539992934025965`*^9}, {3.5539993365834723`*^9, 3.553999336957873*^9}, 
+   3.5539994106836014`*^9, {3.5539996205195675`*^9, 3.553999630784385*^9}, {
+   3.5539997323249617`*^9, 3.553999784460253*^9}, {3.553999829715932*^9, 
+   3.5539998300435324`*^9}, 3.553999860603986*^9, {3.553999934126914*^9, 
+   3.5540000065578403`*^9}, 3.554000067382346*^9, {3.5540001174896336`*^9, 
+   3.5540001180824347`*^9}, 3.5540001534476967`*^9, {3.554000232555434*^9, 
+   3.5540003268731985`*^9}, {3.5540003926585135`*^9, 3.554000442843801*^9}, {
+   3.5540004775850616`*^9, 3.5540005446027784`*^9}, {3.55400059151206*^9, 
+   3.5540006123224964`*^9}, 3.554000661649782*^9, {3.5540007167958784`*^9, 
+   3.554000720571085*^9}, 3.5540007513655386`*^9, {3.554000794406014*^9, 
+   3.554000951108287*^9}, {3.554000993275161*^9, 3.5540010985909443`*^9}, {
+   3.572926676062896*^9, 3.5729266766244965`*^9}, {3.5729267203513727`*^9, 
+   3.572926746356618*^9}, {3.572926780473878*^9, 3.572926819286745*^9}, {
+   3.572926861734419*^9, 3.5729268724828377`*^9}, {3.5729270898380165`*^9, 
+   3.572927169054955*^9}, {3.572927202267413*^9, 3.5729272071346216`*^9}, {
+   3.5729272402750793`*^9, 3.5729272886507635`*^9}, {3.5729273339844427`*^9, 
+   3.5729273497716703`*^9}, {3.5729274060253687`*^9, 
+   3.5729274250574017`*^9}, {3.5729275808236732`*^9, 3.572927634830967*^9}, {
+   3.5729276756874385`*^9, 3.5729277662455964`*^9}, {3.572927812874078*^9, 
+   3.5729278284585047`*^9}, {3.57292787723979*^9, 3.5729278805157957`*^9}, {
+   3.572927925022673*^9, 3.5729279257402744`*^9}, {3.572927976393563*^9, 
+   3.572928003178809*^9}, {3.57292806108611*^9, 3.5729280627865133`*^9}, {
+   3.572928275336884*^9, 3.572928277130887*^9}, {3.57292838775068*^9, 
+   3.572928388327881*^9}, {3.572928489150857*^9, 3.5729284896968575`*^9}, {
+   3.572928775021355*^9, 3.5729287771117587`*^9}, {3.572928830619852*^9, 
+   3.5729288320550547`*^9}, {3.5729289158740005`*^9, 3.572928925202817*^9}, {
+   3.572928989350129*^9, 3.572929000020548*^9}, {3.572929080095487*^9, 
+   3.572929082435491*^9}, {3.5729292380301623`*^9, 3.572929241181368*^9}, 
+   3.5729293123330917`*^9, {3.5729293849200187`*^9, 3.5729293854972196`*^9}, 
+   3.5730113436503334`*^9, 3.5730114467977133`*^9, {3.573011495781799*^9, 
+   3.573011517138236*^9}, {3.573011586105956*^9, 3.5730115864491568`*^9}, {
+   3.5730117405930257`*^9, 3.57301174329183*^9}, {3.573011793352318*^9, 
+   3.573011794085519*^9}, {3.573011884191276*^9, 3.573011884862077*^9}, {
+   3.573012055822775*^9, 3.573012071781603*^9}, {3.573012181824195*^9, 
+   3.573012197424222*^9}, {3.5730129184124813`*^9, 3.573012946820131*^9}, {
+   3.5731938513219337`*^9, 3.5731938684039636`*^9}, {3.573193915594046*^9, 
+   3.573194116475596*^9}, {3.573194173618496*^9, 3.5731942136481657`*^9}, {
+   3.5731942458622217`*^9, 3.5731945443375425`*^9}, {3.5731956229216237`*^9, 
+   3.5731956624208927`*^9}, {3.573195773914287*^9, 3.5731957752246895`*^9}, 
+   3.573195860993639*^9, 3.573195901413309*^9, {3.5731966582491074`*^9, 
+   3.573196673381134*^9}, {3.5731967156416073`*^9, 3.57319672264602*^9}, {
+   3.5731969438982058`*^9, 3.5731969460822096`*^9}, {3.5731972128218746`*^9, 
+   3.5731972225718913`*^9}, {3.573351497437645*^9, 3.573351499637249*^9}, {
+   3.573352325566089*^9, 3.5733523647065573`*^9}, {3.5733531233826804`*^9, 
+   3.5733531622423477`*^9}, {3.573355013359353*^9, 3.5733550169005594`*^9}, {
+   3.573355084355077*^9, 3.573355085821479*^9}, {3.5734392320236635`*^9, 
+   3.5734393417854548`*^9}, {3.573442074934621*^9, 3.573442075605422*^9}, {
+   3.573442128926315*^9, 3.5734421294411154`*^9}, {3.5734431868677597`*^9, 
+   3.5734432453678617`*^9}, {3.5734433499972444`*^9, 
+   3.5734434103069496`*^9}, {3.573443459885036*^9, 3.57344351373633*^9}, {
+   3.5735314401834507`*^9, 3.5735315160931826`*^9}, {3.5735342446773405`*^9, 
+   3.5735342831626077`*^9}, {3.57361328166788*^9, 3.573613287595891*^9}, {
+   3.5736133441615896`*^9, 3.5736133458619924`*^9}, {3.573613628239685*^9, 
+   3.573613707019822*^9}, {3.5736138977769547`*^9, 3.573613899617758*^9}, {
+   3.573613944873437*^9, 3.5736139803322988`*^9}, {3.573614165613822*^9, 
+   3.5736142639719934`*^9}, {3.5736143074492693`*^9, 
+   3.5736143153740826`*^9}, {3.5736145512162943`*^9, 
+   3.5736145529790974`*^9}, {3.5736146762973127`*^9, 
+   3.5736146775609145`*^9}, {3.573614752893446*^9, 3.5736147575266542`*^9}, {
+   3.5756412978214216`*^9, 3.5756413276534214`*^9}, {3.575662198938068*^9, 
+   3.5756622457510853`*^9}, {3.575662462253106*^9, 3.575662462851021*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`e0$$ = 0.2, $CellContext`lambda$$ = 
+    0.55, $CellContext`steps$$ = 401, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`steps$$], 401, "time steps"}, 1, 401, 20}, {{
+       Hold[$CellContext`e0$$], 0.2, "perturbation potential"}, 0.1, 2, 
+      0.05}, {{
+       Hold[$CellContext`lambda$$], 0.55, "frequency correction factor"}, 0.1,
+       2.2, 0.05}}, Typeset`size$$ = {500., {206., 211.}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    False, $CellContext`steps$847$$ = 0, $CellContext`e0$848$$ = 
+    0, $CellContext`lambda$849$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`e0$$ = 0.2, $CellContext`lambda$$ = 
+        0.55, $CellContext`steps$$ = 401}, "ControllerVariables" :> {
+        Hold[$CellContext`steps$$, $CellContext`steps$847$$, 0], 
+        Hold[$CellContext`e0$$, $CellContext`e0$848$$, 0], 
+        Hold[$CellContext`lambda$$, $CellContext`lambda$849$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Quiet[
+        $CellContext`TDPot[$CellContext`e0$$, $CellContext`steps$$, \
+$CellContext`lambda$$, ImageSize -> {250, 400}]], 
+      "Specifications" :> {{{$CellContext`steps$$, 401, "time steps"}, 1, 401,
+          20, Appearance -> "Labeled", ImageSize -> 
+         Small}, {{$CellContext`e0$$, 0.2, "perturbation potential"}, 0.1, 2, 
+         0.05, Appearance -> "Labeled", ImageSize -> 
+         Small}, {{$CellContext`lambda$$, 0.55, 
+          "frequency correction factor"}, 0.1, 2.2, 0.05, Appearance -> 
+         "Labeled", ImageSize -> Small}}, 
+      "Options" :> {
+       ControlPlacement -> Top, SynchronousUpdating -> False, 
+        TrackedSymbols :> {$CellContext`steps$$, $CellContext`e0$$, \
+$CellContext`lambda$$}}, "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{549., {273., 278.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>($CellContext`TDPot[
+        Pattern[$CellContext`e0, 
+         Blank[]], 
+        Pattern[$CellContext`steps, 
+         Blank[]], 
+        Pattern[$CellContext`lambda, 
+         Blank[]], 
+        Pattern[$CellContext`opts, 
+         BlankNullSequence[]]] := Quiet[
+        Module[{$CellContext`n, $CellContext`dx, $CellContext`hbar, \
+$CellContext`m, $CellContext`dt, $CellContext`a, $CellContext`b, \
+$CellContext`xBeg, $CellContext`TimeEnd, $CellContext`psi, $CellContext`Pos, \
+$CellContext`V, $CellContext`ps, $CellContext`blist, $CellContext`colors, \
+$CellContext`x, $CellContext`all, $CellContext`VPlot, $CellContext`nr, \
+$CellContext`newx, $CellContext`PsiN, $CellContext`PsiAbs, \
+$CellContext`PsiAbsOld, $CellContext`PsiAbsN, $CellContext`qpot, \
+$CellContext`vx, $CellContext`xort, $CellContext`PsiNI, $CellContext`PsiOld, \
+$CellContext`Traj, $CellContext`i, $CellContext`j, $CellContext`AR, \
+$CellContext`BColor}, $CellContext`n = 70; $CellContext`dx = 
+          1./($CellContext`n - 1); $CellContext`hbar = ($CellContext`m = 
+           1); $CellContext`dt = ($CellContext`m \
+($CellContext`dx^2/$CellContext`hbar)) 15; $CellContext`a = 
+          I ($CellContext`hbar/$CellContext`dt); $CellContext`b = \
+$CellContext`hbar^2/((4 $CellContext`m) $CellContext`dx^2); $CellContext`xBeg = 
+          0.5; $CellContext`TimeEnd = 401; $CellContext`AR = 
+          5/3; $CellContext`BColor = Black; $CellContext`psi = Table[
+            Cos[
+            Pi ($CellContext`x - 0.5)], {$CellContext`x, 0, 
+             1, $CellContext`dx}]; $CellContext`Pos = 
+          
+          Table[($CellContext`xBeg + $CellContext`i) $CellContext`n, \
+{$CellContext`i, -0.3, 0.3, 0.3/3}]; $CellContext`colors = Table[
+            
+            Blend[{Orange, Green}, $CellContext`j], {$CellContext`j, 0, 1, 1/
+             Length[$CellContext`Pos]}]; $CellContext`ps = Table[{Thick, 
+             Part[$CellContext`colors, $CellContext`j]}, {$CellContext`j, 1, 
+             Length[$CellContext`Pos], 1}]; $CellContext`blist = 
+          Table[$CellContext`b, {$CellContext`n - 1}]; 
+         For[$CellContext`i = 1, $CellContext`i <= $CellContext`TimeEnd, 
+            
+            Increment[$CellContext`i], {$CellContext`V = 
+              Table[(($CellContext`e0 $CellContext`n) ($CellContext`x - 0.5)) 
+                Sin[((($CellContext`lambda 3) (Pi^2/
+                    2)) $CellContext`i) $CellContext`dt], {$CellContext`x, 0, 
+                 1, $CellContext`dx}]; $CellContext`VPlot[$CellContext`i] = \
+$CellContext`V; $CellContext`psi = LinearSolve[
+                
+                SparseArray[{
+                 Band[{1, 2}] -> $CellContext`blist, 
+                  Band[{1, 1}] -> $CellContext`a - 2 $CellContext`b - (1/2) 
+                   Part[$CellContext`V, All], 
+                  Band[{2, 1}] -> $CellContext`blist}], ($CellContext`a + 
+                  2 $CellContext`b + (1/2) Part[$CellContext`V, All]) 
+                 Part[$CellContext`psi, All] - $CellContext`b 
+                Table[2 
+                  Part[$CellContext`psi, $CellContext`j], {$CellContext`j, 
+                   1, $CellContext`n}]]; $CellContext`PsiN[$CellContext`i] = \
+$CellContext`psi; $CellContext`PsiAbs[$CellContext`i] = $CellContext`psi 
+               Conjugate[$CellContext`psi]; $CellContext`PsiAbsOld = Partition[
+                Flatten[
+                 Table[{$CellContext`i1, 
+                   Part[
+                    $CellContext`PsiAbs[$CellContext`i], $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiAbsN = 
+              Interpolation[$CellContext`PsiAbsOld, Method -> 
+                "Spline"]; $CellContext`qpot[
+                Pattern[$CellContext`x, 
+                 Blank[]]][$CellContext`i] = (-
+                D[$CellContext`PsiAbsN[$CellContext`x]^
+                  Rational[1, 2], {$CellContext`x, 
+                   2}])/$CellContext`PsiAbsN[$CellContext`x]^Rational[1, 2]; 
+             Do[{$CellContext`xort = Round[
+                   
+                   Part[$CellContext`Pos, $CellContext`nr]]; \
+$CellContext`PsiOld = Partition[
+                   Flatten[
+                    Table[{$CellContext`i1, 
+                    
+                    Part[$CellContext`psi, $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiNI = 
+                 Interpolation[$CellContext`PsiOld]; $CellContext`vx[
+                   Pattern[$CellContext`x, 
+                    Blank[]]] = Im[D[
+                    $CellContext`PsiNI[$CellContext`x], {$CellContext`x, 
+                    1}]/$CellContext`PsiNI[$CellContext`x]]/$CellContext`dx; \
+$CellContext`newx = 
+                 Part[$CellContext`Pos, $CellContext`nr] $CellContext`dx + ((
+                    20/40) $CellContext`vx[$CellContext`xort]) \
+$CellContext`dt; 
+                Part[$CellContext`Pos, $CellContext`nr] = \
+$CellContext`newx/$CellContext`dx; $CellContext`Traj[$CellContext`i, \
+$CellContext`nr] = $CellContext`newx $CellContext`n; Null}, {$CellContext`nr, 
+                1, 
+                Length[$CellContext`Pos], 1}]}] ($CellContext`all = Join[
+             Table[Abs[
+                $CellContext`PsiN[$CellContext`i]]^2, {$CellContext`i, 
+               1, $CellContext`TimeEnd, 1}]]); GraphicsRow[{
+            Show[{
+              
+              ListPlot[$CellContext`VPlot[$CellContext`steps]/5, Joined -> 
+               True, PlotRange -> {-2, 3}, Axes -> False, 
+               AspectRatio -> $CellContext`AR, PlotStyle -> {Thick, Blue}], 
+              ListPlot[
+               Abs[
+                $CellContext`PsiN[$CellContext`steps]], Joined -> True, 
+               PlotRange -> All, PlotStyle -> {Thick, Orange}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              
+              Plot[$CellContext`qpot[$CellContext`x][$CellContext`steps] - 
+               0.2, {$CellContext`x, 10, $CellContext`n - 10}, PlotRange -> 
+               All, PlotStyle -> {Thick, Red}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              Graphics[
+               Table[{
+                 PointSize[Large], 
+                 Part[$CellContext`colors, $CellContext`nr], 
+                 Point[{
+                   $CellContext`Traj[$CellContext`steps, $CellContext`nr], 
+                   0.1}]}, {$CellContext`nr, 1, 
+                 Length[$CellContext`Pos], 1}], 
+               AspectRatio -> $CellContext`AR]}, 
+             Background -> $CellContext`BColor], 
+            Show[{
+              
+              ListDensityPlot[$CellContext`all, MaxPlotPoints -> 50, Frame -> 
+               False, ColorFunction -> "ThermometerColors", 
+               AspectRatio -> $CellContext`AR, PerformanceGoal -> "Quality"], 
+              Table[
+               ListPlot[
+                Table[{
+                  $CellContext`Traj[$CellContext`i, $CellContext`j], \
+$CellContext`i}, {$CellContext`i, 1, $CellContext`steps, 1}], Joined -> True, 
+                PlotRange -> All, PlotStyle -> {Thick, 
+                  Part[$CellContext`colors, $CellContext`j]}, Axes -> False, 
+                AspectRatio -> $CellContext`AR], {$CellContext`j, 1, 
+                Length[$CellContext`Pos], 1}]}, PlotRange -> All, Axes -> 
+             False, AspectRatio -> $CellContext`AR]}, 
+           Background -> {$CellContext`BColor, $CellContext`BColor}, 
+           ImageSize -> {500}, AspectRatio -> $CellContext`AR/2]]]; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->711759643]
+}, {2}]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "ManipulateCaptionSection"],
+
+Cell[TextData[{
+ "The process of exciting an atom involves adding energy. In the \
+photoelectric effect, electrons are emitted when they absorb energy from \
+incident radiation with a certain minimum frequency ",
+ Cell[BoxData[
+  FormBox["\[Omega]", TraditionalForm]], "InlineMath"],
+ ". This Demonstration shows only the energy transition of a perturbed atom. \
+An atom is described by a wave in a box with infinitely high walls. For this \
+particular case, the atom is perturbed by a strong periodic external \
+potential, which could be interpreted as a weak or intense electric field \
+with an electric field strength ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["E", "0"], TraditionalForm]], "InlineMath"],
+ " that oscillates with some angular frequency ",
+ Cell[BoxData[
+  FormBox["\[Omega]", TraditionalForm]], "InlineMath"],
+ ". The absorption (or emission) of energy could be described by the \
+transition frequency ",
+ Cell[BoxData[
+  FormBox["\[Omega]", TraditionalForm]], "InlineMath"],
+ " of the adjacent quantum energy",
+ Cell[BoxData[
+  FormBox[" ", TraditionalForm]], "InlineMath"],
+ "level ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["E", "n"], TraditionalForm]], "InlineMath"],
+ ", which is ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{" ", 
+    RowBox[{"\[Omega]", "=", 
+     RowBox[{
+      RowBox[{
+       SubscriptBox["\[Omega]", "n"], "-", 
+       SubscriptBox["\[Omega]", 
+        RowBox[{"n", "-", "1"}]]}], "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          SubscriptBox["E", "n"], "-", 
+          SubscriptBox["E", 
+           RowBox[{"n", "-", "1"}]]}], ")"}], "/", "\[HBar]"}], "=", 
+       RowBox[{
+        SuperscriptBox["\[Lambda]", "'"], 
+        FractionBox[
+         RowBox[{"\[HBar]", " ", 
+          SuperscriptBox["\[Pi]", 
+           RowBox[{"2", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"2", "n"}], "-", "1"}], ")"}]}]]}], 
+         RowBox[{"2", "m", " ", 
+          SuperscriptBox["L", "2"]}]]}]}]}]}]}], TraditionalForm]], 
+  "InlineMath"],
+ " (here, with frequency correction factor ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[Lambda]", "'"}], TraditionalForm]], "InlineMath"],
+ ", mass ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"m", "=", "1"}], TraditionalForm]], "InlineMath"],
+ ", ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[HBar]", "=", "1"}], TraditionalForm]], "InlineMath"],
+ ", box length ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"L", "=", "1"}], TraditionalForm]], "InlineMath"],
+ ", and energy eigenvalue ",
+ Cell[BoxData[
+  FormBox["n", TraditionalForm]], "InlineMath"],
+ "). Only for definite values of the frequency ",
+ Cell[BoxData[
+  FormBox["\[Omega]", TraditionalForm]], "InlineMath"],
+ " (by a given strength ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["E", "0"], TraditionalForm]], "InlineMath"],
+ " of the perturbation), depending on the energy eigenvalues ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{" ", 
+    RowBox[{
+     RowBox[{"n", "=", "1"}], ",", "2", ",", "3", ",", "\[Ellipsis]"}]}], 
+   TraditionalForm]], "InlineMath"],
+ ", can the atom undergo a transition from the first to the second excited \
+state. If the perturbation term",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{" ", 
+    SubscriptBox["E", "0"]}], TraditionalForm]], "InlineMath"],
+ " becomes large, the quantum state evolves into a superposition of states \
+with different energy. These mixed states lead to ergodic motion of the \
+quantum particle. The excited atom can be measured by removing the confining \
+well; then the particle moves away faster because of the excited state. The \
+simplicity of the model neglects quantization of the transition-inducing \
+field and other radiation effects."
+}], "ManipulateCaption",
+ Deletable->True,
+ CellChangeTimes->{
+  3.5731946955174055`*^9, 3.5731951382375784`*^9, {3.5731951949436774`*^9, 
+   3.5731952914454455`*^9}, {3.5731953829864054`*^9, 3.573195391878421*^9}, {
+   3.5731958144587574`*^9, 3.573195815145159*^9}, {3.573197274129981*^9, 
+   3.573197284020398*^9}, {3.5731973192452602`*^9, 3.573197320462062*^9}, 
+   3.5732851958782854`*^9, {3.5732858162757673`*^9, 3.573285818490971*^9}, {
+   3.5732858844322863`*^9, 3.573285907270726*^9}, {3.573351578635787*^9, 
+   3.5733515794781885`*^9}, {3.5733516510823135`*^9, 3.573351794836564*^9}, {
+   3.5733519662038627`*^9, 3.5733520089011374`*^9}, {3.5733520556232185`*^9, 
+   3.573352088024475*^9}, {3.5733521719838214`*^9, 3.5733521725454226`*^9}, {
+   3.5733522702015924`*^9, 3.5733522983128414`*^9}, {3.573352541704466*^9, 
+   3.573352657238268*^9}, {3.5733526913243265`*^9, 3.573352697782738*^9}, {
+   3.573352792896104*^9, 3.5733528497582035`*^9}, {3.573352946135171*^9, 
+   3.5733529681156096`*^9}, {3.5733530479409485`*^9, 3.573353049890952*^9}, 
+   3.573353092432226*^9, 3.573353956979311*^9, {3.573354022377825*^9, 
+   3.573354031847041*^9}, {3.573354142420034*^9, 3.573354187426112*^9}, 
+   3.5733544391169515`*^9, 3.57335465043652*^9, {3.5733699807923346`*^9, 
+   3.5733699898559504`*^9}, {3.5733700290588183`*^9, 
+   3.5733700740648966`*^9}, {3.5734390959758263`*^9, 
+   3.5734391070206456`*^9}, {3.5734391437431097`*^9, 3.573439178749571*^9}, {
+   3.5734396360643682`*^9, 3.573439650385193*^9}, {3.5734398822961974`*^9, 
+   3.573439883107399*^9}, {3.5734400726789293`*^9, 3.5734401250170207`*^9}, {
+   3.573440397097095*^9, 3.5734404563147984`*^9}, 3.5734407131692457`*^9, {
+   3.573440744821701*^9, 3.5734407543845177`*^9}, {3.5734407873005753`*^9, 
+   3.573440999429745*^9}, {3.573441037228611*^9, 3.5734410383050127`*^9}, {
+   3.5734410737326746`*^9, 3.5734411551492167`*^9}, {3.573441187815674*^9, 
+   3.5734412417449675`*^9}, {3.5734412753630266`*^9, 3.573441353815563*^9}, {
+   3.573441396622038*^9, 3.5734414025344477`*^9}, {3.573441554541113*^9, 
+   3.573441619265626*^9}, {3.5734416636789036`*^9, 3.5734416728985195`*^9}, {
+   3.5734417595956707`*^9, 3.5734417673956842`*^9}, {3.573442278343375*^9, 
+   3.5734423400102825`*^9}, {3.5734423714599376`*^9, 
+   3.5734423925667744`*^9}, {3.5734440620938864`*^9, 3.573444071875103*^9}, {
+   3.5734441317636075`*^9, 3.5734441428888273`*^9}, {3.5734441864129033`*^9, 
+   3.5734441983001237`*^9}, 3.5734442526350183`*^9, {3.5735309456833878`*^9, 
+   3.5735309531870008`*^9}, {3.5735309920310683`*^9, 3.573530993871872*^9}, {
+   3.573532088846182*^9, 3.573532159155504*^9}, {3.5735327835631933`*^9, 
+   3.5735327880404005`*^9}, {3.573532947659879*^9, 3.5735329984379673`*^9}, {
+   3.5735330361588335`*^9, 3.5735330430540457`*^9}, {3.573533214981945*^9, 
+   3.5735332932784815`*^9}, {3.5735333427617683`*^9, 3.573533364196205*^9}, {
+   3.5735336161990447`*^9, 3.57353361941265*^9}, {3.573533686289967*^9, 
+   3.5735336896595726`*^9}, {3.5735339975261097`*^9, 3.573534211979684*^9}, 
+   3.5735343301654897`*^9, {3.5735372620044017`*^9, 3.573537300006068*^9}, {
+   3.573537336182531*^9, 3.5735373376957335`*^9}, {3.5736110439279757`*^9, 
+   3.5736110586388016`*^9}, {3.5736111079872875`*^9, 3.573611117394104*^9}, {
+   3.5736112380915146`*^9, 3.5736112720527735`*^9}, {3.573611326496869*^9, 
+   3.573611360458128*^9}, {3.573611439129065*^9, 3.5736115184864035`*^9}, 
+   3.5736117291657705`*^9, {3.5736129001126146`*^9, 3.5736129047926226`*^9}, {
+   3.5736129831603603`*^9, 3.5736132392358065`*^9}, {3.573614340037726*^9, 
+   3.573614472606757*^9}, {3.573614561091111*^9, 3.5736145628539143`*^9}, {
+   3.573614892248489*^9, 3.57361492740215*^9}, {3.5736149905666604`*^9, 
+   3.5736149922826633`*^9}, {3.573616680562606*^9, 3.5736166820134087`*^9}, {
+   3.573616769602361*^9, 3.5736167701795626`*^9}, {3.5736957838645535`*^9, 
+   3.5736958293698325`*^9}, 3.573697853464734*^9, {3.5736978936504045`*^9, 
+   3.573697903696822*^9}, {3.5751651900589023`*^9, 3.5751652458133993`*^9}, {
+   3.5751654367265325`*^9, 3.5751654382085347`*^9}, {3.575165484010215*^9, 
+   3.575165484696616*^9}, {3.575165530030295*^9, 3.575165718369423*^9}, {
+   3.575165783733537*^9, 3.5751658913425245`*^9}, {3.5751659271601877`*^9, 
+   3.5751662289271135`*^9}, {3.5751662690815835`*^9, 
+   3.5751663202964725`*^9}, {3.575166985348033*^9, 3.575166998389655*^9}, 
+   3.575168526260882*^9, {3.5752484759651012`*^9, 3.575248578878481*^9}, 
+   3.575248867436384*^9, {3.5755177035173225`*^9, 3.575517712643339*^9}, {
+   3.575640802226285*^9, 3.5756408301520777`*^9}, {3.5756414519814215`*^9, 
+   3.575641452195421*^9}, {3.575661632189115*^9, 3.575661790955571*^9}, {
+   3.575661851656382*^9, 3.575662016134259*^9}, {3.5756646140334578`*^9, 
+   3.575664644286159*^9}, {3.5756668629029837`*^9, 3.575666878405244*^9}, {
+   3.575666929756339*^9, 3.57566693630877*^9}, {3.575666986454742*^9, 
+   3.5756670108791847`*^9}, {3.5757284158531313`*^9, 3.57572843704425*^9}, {
+   3.575728607831327*^9, 3.57572863126867*^9}}],
+
+Cell["\<\
+In the causal interpretation, the particle position is well-defined and the \
+situation is described by a wavefunction (and a quantum potential) that \
+evolves continuously according to the Schr\[ODoubleDot]dinger equation and by \
+the particle positions that change continuously according to the guiding \
+equation.\
+\>", "ManipulateCaption",
+ CellChangeTimes->{
+  3.5731946955174055`*^9, 3.5731951382375784`*^9, {3.5731951949436774`*^9, 
+   3.5731952914454455`*^9}, {3.5731953829864054`*^9, 3.573195391878421*^9}, {
+   3.5731958144587574`*^9, 3.573195815145159*^9}, {3.573197274129981*^9, 
+   3.573197284020398*^9}, {3.5731973192452602`*^9, 3.573197320462062*^9}, 
+   3.5732851958782854`*^9, {3.5732858162757673`*^9, 3.573285818490971*^9}, {
+   3.5732858844322863`*^9, 3.573285907270726*^9}, {3.573351578635787*^9, 
+   3.5733515794781885`*^9}, {3.5733516510823135`*^9, 3.573351794836564*^9}, {
+   3.5733519662038627`*^9, 3.5733520089011374`*^9}, {3.5733520556232185`*^9, 
+   3.573352088024475*^9}, {3.5733521719838214`*^9, 3.5733521725454226`*^9}, {
+   3.5733522702015924`*^9, 3.5733522983128414`*^9}, {3.573352541704466*^9, 
+   3.573352657238268*^9}, {3.5733526913243265`*^9, 3.573352697782738*^9}, {
+   3.573352792896104*^9, 3.5733528497582035`*^9}, {3.573352946135171*^9, 
+   3.5733529681156096`*^9}, {3.5733530479409485`*^9, 3.573353049890952*^9}, 
+   3.573353092432226*^9, 3.573353956979311*^9, {3.573354022377825*^9, 
+   3.573354031847041*^9}, {3.573354142420034*^9, 3.573354187426112*^9}, 
+   3.5733544391169515`*^9, 3.57335465043652*^9, {3.5733699807923346`*^9, 
+   3.5733699898559504`*^9}, {3.5733700290588183`*^9, 
+   3.5733700740648966`*^9}, {3.5734390959758263`*^9, 
+   3.5734391070206456`*^9}, {3.5734391437431097`*^9, 3.573439178749571*^9}, {
+   3.5734396360643682`*^9, 3.573439650385193*^9}, {3.5734398822961974`*^9, 
+   3.573439883107399*^9}, {3.5734400726789293`*^9, 3.5734401250170207`*^9}, {
+   3.573440397097095*^9, 3.5734404563147984`*^9}, 3.5734407131692457`*^9, {
+   3.573440744821701*^9, 3.5734407543845177`*^9}, {3.5734407873005753`*^9, 
+   3.573440999429745*^9}, {3.573441037228611*^9, 3.5734410383050127`*^9}, {
+   3.5734410737326746`*^9, 3.5734411551492167`*^9}, {3.573441187815674*^9, 
+   3.5734412417449675`*^9}, {3.5734412753630266`*^9, 3.573441353815563*^9}, {
+   3.573441396622038*^9, 3.5734414025344477`*^9}, {3.573441554541113*^9, 
+   3.573441619265626*^9}, {3.5734416636789036`*^9, 3.5734416728985195`*^9}, {
+   3.5734417595956707`*^9, 3.5734417673956842`*^9}, {3.573442278343375*^9, 
+   3.5734423400102825`*^9}, {3.5734423714599376`*^9, 
+   3.5734423925667744`*^9}, {3.5734440620938864`*^9, 3.573444071875103*^9}, {
+   3.5734441317636075`*^9, 3.5734441428888273`*^9}, {3.5734441864129033`*^9, 
+   3.5734441983001237`*^9}, 3.5734442526350183`*^9, {3.5735309456833878`*^9, 
+   3.5735309531870008`*^9}, {3.5735309920310683`*^9, 3.573530993871872*^9}, {
+   3.573532088846182*^9, 3.573532159155504*^9}, {3.5735327835631933`*^9, 
+   3.5735327880404005`*^9}, {3.573532947659879*^9, 3.5735329984379673`*^9}, {
+   3.5735330361588335`*^9, 3.5735330430540457`*^9}, {3.573533214981945*^9, 
+   3.5735332932784815`*^9}, {3.5735333427617683`*^9, 3.573533364196205*^9}, {
+   3.5735336161990447`*^9, 3.57353361941265*^9}, {3.573533686289967*^9, 
+   3.5735336896595726`*^9}, {3.5735339975261097`*^9, 3.573534211979684*^9}, 
+   3.5735343301654897`*^9, {3.5735372620044017`*^9, 3.573537300006068*^9}, {
+   3.573537336182531*^9, 3.5735373376957335`*^9}, {3.5736110439279757`*^9, 
+   3.5736110586388016`*^9}, {3.5736111079872875`*^9, 3.573611117394104*^9}, {
+   3.5736112380915146`*^9, 3.5736112720527735`*^9}, {3.573611326496869*^9, 
+   3.573611360458128*^9}, {3.573611439129065*^9, 3.5736115184864035`*^9}, 
+   3.5736117291657705`*^9, {3.5736129001126146`*^9, 3.5736129047926226`*^9}, {
+   3.5736129831603603`*^9, 3.5736132392358065`*^9}, {3.573614340037726*^9, 
+   3.573614472606757*^9}, {3.573614561091111*^9, 3.5736145628539143`*^9}, {
+   3.573614892248489*^9, 3.57361492740215*^9}, {3.5736149905666604`*^9, 
+   3.5736149922826633`*^9}, {3.573616680562606*^9, 3.5736166820134087`*^9}, {
+   3.573616769602361*^9, 3.5736167701795626`*^9}, {3.5736957838645535`*^9, 
+   3.5736958293698325`*^9}, 3.573697853464734*^9, {3.5736978936504045`*^9, 
+   3.573697903696822*^9}, {3.5751651900589023`*^9, 3.5751652458133993`*^9}, {
+   3.5751654367265325`*^9, 3.5751654382085347`*^9}, {3.575165484010215*^9, 
+   3.575165484696616*^9}, {3.575165530030295*^9, 3.575165718369423*^9}, {
+   3.575165783733537*^9, 3.5751658913425245`*^9}, {3.5751659271601877`*^9, 
+   3.5751662289271135`*^9}, {3.5751662690815835`*^9, 
+   3.5751663202964725`*^9}, {3.575166985348033*^9, 3.575166998389655*^9}, 
+   3.575168526260882*^9, {3.5752484759651012`*^9, 3.575248578878481*^9}, 
+   3.575248867436384*^9, {3.5755177035173225`*^9, 3.575517712643339*^9}, {
+   3.575640802226285*^9, 3.5756408344515076`*^9}, {3.57566204292999*^9, 
+   3.575662060884675*^9}, 3.575728655838127*^9},
+ CellID->157622183],
+
+Cell[TextData[{
+ "The trajectories are given as curves along the velocity field given by the \
+quantum current. While the particle positions are measurable in the usual way \
+(the statistics are given by ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{
+     RowBox[{"\[LeftBracketingBar]", "\[Psi]", "\[RightBracketingBar]"}], 
+     " "}], "2"], TraditionalForm]], "InlineMath"],
+ "), a normal position measurement always disturbs the trajectory. Therefore \
+the undisturbed trajectories cannot be measured in the usual way by \
+performing several position measurements in short time intervals. In the \
+causal interpretation there is no evidence of quantum jumps."
+}], "ManipulateCaption",
+ CellChangeTimes->{
+  3.5731946955174055`*^9, 3.5731951382375784`*^9, {3.5731951949436774`*^9, 
+   3.5731952914454455`*^9}, {3.5731953829864054`*^9, 3.573195391878421*^9}, {
+   3.5731958144587574`*^9, 3.573195815145159*^9}, {3.573197274129981*^9, 
+   3.573197284020398*^9}, {3.5731973192452602`*^9, 3.573197320462062*^9}, 
+   3.5732851958782854`*^9, {3.5732858162757673`*^9, 3.573285818490971*^9}, {
+   3.5732858844322863`*^9, 3.573285907270726*^9}, {3.573351578635787*^9, 
+   3.5733515794781885`*^9}, {3.5733516510823135`*^9, 3.573351794836564*^9}, {
+   3.5733519662038627`*^9, 3.5733520089011374`*^9}, {3.5733520556232185`*^9, 
+   3.573352088024475*^9}, {3.5733521719838214`*^9, 3.5733521725454226`*^9}, {
+   3.5733522702015924`*^9, 3.5733522983128414`*^9}, {3.573352541704466*^9, 
+   3.573352657238268*^9}, {3.5733526913243265`*^9, 3.573352697782738*^9}, {
+   3.573352792896104*^9, 3.5733528497582035`*^9}, {3.573352946135171*^9, 
+   3.5733529681156096`*^9}, {3.5733530479409485`*^9, 3.573353049890952*^9}, 
+   3.573353092432226*^9, 3.573353956979311*^9, {3.573354022377825*^9, 
+   3.573354031847041*^9}, {3.573354142420034*^9, 3.573354187426112*^9}, 
+   3.5733544391169515`*^9, 3.57335465043652*^9, {3.5733699807923346`*^9, 
+   3.5733699898559504`*^9}, {3.5733700290588183`*^9, 
+   3.5733700740648966`*^9}, {3.5734390959758263`*^9, 
+   3.5734391070206456`*^9}, {3.5734391437431097`*^9, 3.573439178749571*^9}, {
+   3.5734396360643682`*^9, 3.573439650385193*^9}, {3.5734398822961974`*^9, 
+   3.573439883107399*^9}, {3.5734400726789293`*^9, 3.5734401250170207`*^9}, {
+   3.573440397097095*^9, 3.5734404563147984`*^9}, 3.5734407131692457`*^9, {
+   3.573440744821701*^9, 3.5734407543845177`*^9}, {3.5734407873005753`*^9, 
+   3.573440999429745*^9}, {3.573441037228611*^9, 3.5734410383050127`*^9}, {
+   3.5734410737326746`*^9, 3.5734411551492167`*^9}, {3.573441187815674*^9, 
+   3.5734412417449675`*^9}, {3.5734412753630266`*^9, 3.573441353815563*^9}, {
+   3.573441396622038*^9, 3.5734414025344477`*^9}, {3.573441554541113*^9, 
+   3.573441619265626*^9}, {3.5734416636789036`*^9, 3.5734416728985195`*^9}, {
+   3.5734417595956707`*^9, 3.5734417673956842`*^9}, {3.573442278343375*^9, 
+   3.5734423400102825`*^9}, {3.5734423714599376`*^9, 
+   3.5734423925667744`*^9}, {3.5734440620938864`*^9, 3.573444071875103*^9}, {
+   3.5734441317636075`*^9, 3.5734441428888273`*^9}, {3.5734441864129033`*^9, 
+   3.5734441983001237`*^9}, 3.5734442526350183`*^9, {3.5735309456833878`*^9, 
+   3.5735309531870008`*^9}, {3.5735309920310683`*^9, 3.573530993871872*^9}, {
+   3.573532088846182*^9, 3.573532159155504*^9}, {3.5735327835631933`*^9, 
+   3.5735327880404005`*^9}, {3.573532947659879*^9, 3.5735329984379673`*^9}, {
+   3.5735330361588335`*^9, 3.5735330430540457`*^9}, {3.573533214981945*^9, 
+   3.5735332932784815`*^9}, {3.5735333427617683`*^9, 3.573533364196205*^9}, {
+   3.5735336161990447`*^9, 3.57353361941265*^9}, {3.573533686289967*^9, 
+   3.5735336896595726`*^9}, {3.5735339975261097`*^9, 3.573534211979684*^9}, 
+   3.5735343301654897`*^9, {3.5735372620044017`*^9, 3.573537300006068*^9}, {
+   3.573537336182531*^9, 3.5735373376957335`*^9}, {3.5736110439279757`*^9, 
+   3.5736110586388016`*^9}, {3.5736111079872875`*^9, 3.573611117394104*^9}, {
+   3.5736112380915146`*^9, 3.5736112720527735`*^9}, {3.573611326496869*^9, 
+   3.573611360458128*^9}, {3.573611439129065*^9, 3.5736115184864035`*^9}, 
+   3.5736117291657705`*^9, {3.5736129001126146`*^9, 3.5736129047926226`*^9}, {
+   3.5736129831603603`*^9, 3.5736132392358065`*^9}, {3.573614340037726*^9, 
+   3.573614472606757*^9}, {3.573614561091111*^9, 3.5736145628539143`*^9}, {
+   3.573614892248489*^9, 3.57361492740215*^9}, {3.5736149905666604`*^9, 
+   3.5736149922826633`*^9}, {3.573616680562606*^9, 3.5736166820134087`*^9}, {
+   3.573616769602361*^9, 3.5736167701795626`*^9}, {3.5736957838645535`*^9, 
+   3.5736958293698325`*^9}, 3.573697853464734*^9, {3.5736978936504045`*^9, 
+   3.573697903696822*^9}, {3.5751651900589023`*^9, 3.5751652458133993`*^9}, {
+   3.5751654367265325`*^9, 3.5751654382085347`*^9}, {3.575165484010215*^9, 
+   3.575165484696616*^9}, {3.575165530030295*^9, 3.575165718369423*^9}, {
+   3.575165783733537*^9, 3.5751658913425245`*^9}, {3.5751659271601877`*^9, 
+   3.5751662289271135`*^9}, {3.5751662690815835`*^9, 
+   3.5751663202964725`*^9}, {3.575166985348033*^9, 3.575166998389655*^9}, 
+   3.575168526260882*^9, {3.5752484759651012`*^9, 3.575248578878481*^9}, 
+   3.575248867436384*^9, {3.5755177035173225`*^9, 3.575517712643339*^9}, {
+   3.575640802226285*^9, 3.5756408377268353`*^9}, {3.5756414522224216`*^9, 
+   3.575641452242421*^9}, {3.57566207396836*^9, 3.5756621088135357`*^9}, {
+   3.57566467623833*^9, 3.575664676900877*^9}, {3.575728680855629*^9, 
+   3.5757286917117143`*^9}, {3.5757292383673744`*^9, 3.575729240566594*^9}},
+ CellID->190854812],
+
+Cell[TextData[{
+ "The trajectories are positioned in ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"(", 
+    RowBox[{"x", ",", "t"}], ")"}], TraditionalForm]], "InlineMath"],
+ " space. The initial positions of the particles are linearly distributed \
+around the peak inside the wave. The graphic on the right shows the squared \
+wavefunction, the potential, and the possible trajectories. The graphic on \
+the left shows the particles' positions, the squared wavefunction (orange), \
+the quantum potential (red), and the potential (blue). The potentials are \
+approximately scaled to fit."
+}], "ManipulateCaption",
+ CellChangeTimes->{
+  3.5731946955174055`*^9, 3.5731951382375784`*^9, {3.5731951949436774`*^9, 
+   3.5731952914454455`*^9}, {3.5731953829864054`*^9, 3.573195391878421*^9}, {
+   3.5731958144587574`*^9, 3.573195815145159*^9}, {3.573197274129981*^9, 
+   3.573197284020398*^9}, {3.5731973192452602`*^9, 3.573197320462062*^9}, 
+   3.5732851958782854`*^9, {3.5732858162757673`*^9, 3.573285818490971*^9}, {
+   3.5732858844322863`*^9, 3.573285907270726*^9}, {3.573351578635787*^9, 
+   3.5733515794781885`*^9}, {3.5733516510823135`*^9, 3.573351794836564*^9}, {
+   3.5733519662038627`*^9, 3.5733520089011374`*^9}, {3.5733520556232185`*^9, 
+   3.573352088024475*^9}, {3.5733521719838214`*^9, 3.5733521725454226`*^9}, {
+   3.5733522702015924`*^9, 3.5733522983128414`*^9}, {3.573352541704466*^9, 
+   3.573352657238268*^9}, {3.5733526913243265`*^9, 3.573352697782738*^9}, {
+   3.573352792896104*^9, 3.5733528497582035`*^9}, {3.573352946135171*^9, 
+   3.5733529681156096`*^9}, {3.5733530479409485`*^9, 3.573353049890952*^9}, 
+   3.573353092432226*^9, 3.573353956979311*^9, {3.573354022377825*^9, 
+   3.573354031847041*^9}, {3.573354142420034*^9, 3.573354187426112*^9}, 
+   3.5733544391169515`*^9, 3.57335465043652*^9, {3.5733699807923346`*^9, 
+   3.5733699898559504`*^9}, {3.5733700290588183`*^9, 
+   3.5733700740648966`*^9}, {3.5734390959758263`*^9, 
+   3.5734391070206456`*^9}, {3.5734391437431097`*^9, 3.573439178749571*^9}, {
+   3.5734396360643682`*^9, 3.573439650385193*^9}, {3.5734398822961974`*^9, 
+   3.573439883107399*^9}, {3.5734400726789293`*^9, 3.5734401250170207`*^9}, {
+   3.573440397097095*^9, 3.5734404563147984`*^9}, 3.5734407131692457`*^9, {
+   3.573440744821701*^9, 3.5734407543845177`*^9}, {3.5734407873005753`*^9, 
+   3.573440999429745*^9}, {3.573441037228611*^9, 3.5734410383050127`*^9}, {
+   3.5734410737326746`*^9, 3.5734411551492167`*^9}, {3.573441187815674*^9, 
+   3.5734412417449675`*^9}, {3.5734412753630266`*^9, 3.573441353815563*^9}, {
+   3.573441396622038*^9, 3.5734414025344477`*^9}, {3.573441554541113*^9, 
+   3.573441619265626*^9}, {3.5734416636789036`*^9, 3.5734416728985195`*^9}, {
+   3.5734417595956707`*^9, 3.5734417673956842`*^9}, {3.573442278343375*^9, 
+   3.5734423400102825`*^9}, {3.5734423714599376`*^9, 
+   3.5734423925667744`*^9}, {3.5734440620938864`*^9, 3.573444071875103*^9}, {
+   3.5734441317636075`*^9, 3.5734441428888273`*^9}, {3.5734441864129033`*^9, 
+   3.5734441983001237`*^9}, 3.5734442526350183`*^9, {3.5735309456833878`*^9, 
+   3.5735309531870008`*^9}, {3.5735309920310683`*^9, 3.573530993871872*^9}, {
+   3.573532088846182*^9, 3.573532159155504*^9}, {3.5735327835631933`*^9, 
+   3.5735327880404005`*^9}, {3.573532947659879*^9, 3.5735329984379673`*^9}, {
+   3.5735330361588335`*^9, 3.5735330430540457`*^9}, {3.573533214981945*^9, 
+   3.5735332932784815`*^9}, {3.5735333427617683`*^9, 3.573533364196205*^9}, {
+   3.5735336161990447`*^9, 3.57353361941265*^9}, {3.573533686289967*^9, 
+   3.5735336896595726`*^9}, {3.5735339975261097`*^9, 3.573534211979684*^9}, 
+   3.5735343301654897`*^9, {3.5735372620044017`*^9, 3.573537300006068*^9}, {
+   3.573537336182531*^9, 3.5735373376957335`*^9}, {3.5736110439279757`*^9, 
+   3.5736110586388016`*^9}, {3.5736111079872875`*^9, 3.573611117394104*^9}, {
+   3.5736112380915146`*^9, 3.5736112720527735`*^9}, {3.573611326496869*^9, 
+   3.573611360458128*^9}, {3.573611439129065*^9, 3.5736115184864035`*^9}, 
+   3.5736117291657705`*^9, {3.5736129001126146`*^9, 3.5736129047926226`*^9}, {
+   3.5736129831603603`*^9, 3.5736132392358065`*^9}, {3.573614340037726*^9, 
+   3.573614472606757*^9}, {3.573614561091111*^9, 3.5736145628539143`*^9}, {
+   3.573614892248489*^9, 3.57361492740215*^9}, {3.5736149905666604`*^9, 
+   3.5736149922826633`*^9}, {3.573616680562606*^9, 3.5736166820134087`*^9}, {
+   3.573616769602361*^9, 3.5736167701795626`*^9}, {3.5736957838645535`*^9, 
+   3.5736958293698325`*^9}, 3.573697853464734*^9, {3.5736978936504045`*^9, 
+   3.573697903696822*^9}, {3.5751651900589023`*^9, 3.5751652458133993`*^9}, {
+   3.5751654367265325`*^9, 3.5751654382085347`*^9}, {3.575165484010215*^9, 
+   3.575165484696616*^9}, {3.575165530030295*^9, 3.575165718369423*^9}, {
+   3.575165783733537*^9, 3.5751658913425245`*^9}, {3.5751659271601877`*^9, 
+   3.5751662289271135`*^9}, {3.5751662690815835`*^9, 
+   3.5751663202964725`*^9}, {3.575166985348033*^9, 3.575166998389655*^9}, 
+   3.575168526260882*^9, {3.5752484759651012`*^9, 3.575248578878481*^9}, 
+   3.575248867436384*^9, {3.5755177035173225`*^9, 3.575517712643339*^9}, {
+   3.575640802226285*^9, 3.5756408388349457`*^9}, 3.5756415327594213`*^9, {
+   3.5756621255164747`*^9, 3.575662146274313*^9}},
+ CellID->7811953]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "ThumbnailSection"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`e0$$ = 0.4, $CellContext`lambda$$ = 
+    0.55, $CellContext`steps$$ = 401, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`steps$$], 401, "time steps"}, 1, 401, 20}, {{
+       Hold[$CellContext`e0$$], 0.4, "perturbation potential"}, 0.1, 2, 
+      0.05}, {{
+       Hold[$CellContext`lambda$$], 0.55, "frequency correction factor"}, 0.1,
+       2.2, 0.05}}, Typeset`size$$ = {500., {206., 211.}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    False, $CellContext`steps$911$$ = 0, $CellContext`e0$912$$ = 
+    0, $CellContext`lambda$913$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`e0$$ = 0.4, $CellContext`lambda$$ = 
+        0.55, $CellContext`steps$$ = 401}, "ControllerVariables" :> {
+        Hold[$CellContext`steps$$, $CellContext`steps$911$$, 0], 
+        Hold[$CellContext`e0$$, $CellContext`e0$912$$, 0], 
+        Hold[$CellContext`lambda$$, $CellContext`lambda$913$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Quiet[
+        $CellContext`TDPot[$CellContext`e0$$, $CellContext`steps$$, \
+$CellContext`lambda$$, ImageSize -> {250, 400}]], 
+      "Specifications" :> {{{$CellContext`steps$$, 401, "time steps"}, 1, 401,
+          20, Appearance -> "Labeled", ImageSize -> 
+         Small}, {{$CellContext`e0$$, 0.4, "perturbation potential"}, 0.1, 2, 
+         0.05, Appearance -> "Labeled", ImageSize -> 
+         Small}, {{$CellContext`lambda$$, 0.55, 
+          "frequency correction factor"}, 0.1, 2.2, 0.05, Appearance -> 
+         "Labeled", ImageSize -> Small}}, 
+      "Options" :> {
+       ControlPlacement -> Top, SynchronousUpdating -> False, 
+        TrackedSymbols :> {$CellContext`steps$$, $CellContext`e0$$, \
+$CellContext`lambda$$}}, "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{549., {273., 278.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>($CellContext`TDPot[
+        Pattern[$CellContext`e0, 
+         Blank[]], 
+        Pattern[$CellContext`steps, 
+         Blank[]], 
+        Pattern[$CellContext`lambda, 
+         Blank[]], 
+        Pattern[$CellContext`opts, 
+         BlankNullSequence[]]] := Quiet[
+        Module[{$CellContext`n, $CellContext`dx, $CellContext`hbar, \
+$CellContext`m, $CellContext`dt, $CellContext`a, $CellContext`b, \
+$CellContext`xBeg, $CellContext`TimeEnd, $CellContext`psi, $CellContext`Pos, \
+$CellContext`V, $CellContext`ps, $CellContext`blist, $CellContext`colors, \
+$CellContext`x, $CellContext`all, $CellContext`VPlot, $CellContext`nr, \
+$CellContext`newx, $CellContext`PsiN, $CellContext`PsiAbs, \
+$CellContext`PsiAbsOld, $CellContext`PsiAbsN, $CellContext`qpot, \
+$CellContext`vx, $CellContext`xort, $CellContext`PsiNI, $CellContext`PsiOld, \
+$CellContext`Traj, $CellContext`i, $CellContext`j, $CellContext`AR, \
+$CellContext`BColor}, $CellContext`n = 70; $CellContext`dx = 
+          1./($CellContext`n - 1); $CellContext`hbar = ($CellContext`m = 
+           1); $CellContext`dt = ($CellContext`m \
+($CellContext`dx^2/$CellContext`hbar)) 15; $CellContext`a = 
+          I ($CellContext`hbar/$CellContext`dt); $CellContext`b = \
+$CellContext`hbar^2/((4 $CellContext`m) $CellContext`dx^2); $CellContext`xBeg = 
+          0.5; $CellContext`TimeEnd = 401; $CellContext`AR = 
+          5/3; $CellContext`BColor = Black; $CellContext`psi = Table[
+            Cos[
+            Pi ($CellContext`x - 0.5)], {$CellContext`x, 0, 
+             1, $CellContext`dx}]; $CellContext`Pos = 
+          
+          Table[($CellContext`xBeg + $CellContext`i) $CellContext`n, \
+{$CellContext`i, -0.3, 0.3, 0.3/3}]; $CellContext`colors = Table[
+            
+            Blend[{Orange, Green}, $CellContext`j], {$CellContext`j, 0, 1, 1/
+             Length[$CellContext`Pos]}]; $CellContext`ps = Table[{Thick, 
+             Part[$CellContext`colors, $CellContext`j]}, {$CellContext`j, 1, 
+             Length[$CellContext`Pos], 1}]; $CellContext`blist = 
+          Table[$CellContext`b, {$CellContext`n - 1}]; 
+         For[$CellContext`i = 1, $CellContext`i <= $CellContext`TimeEnd, 
+            
+            Increment[$CellContext`i], {$CellContext`V = 
+              Table[(($CellContext`e0 $CellContext`n) ($CellContext`x - 0.5)) 
+                Sin[((($CellContext`lambda 3) (Pi^2/
+                    2)) $CellContext`i) $CellContext`dt], {$CellContext`x, 0, 
+                 1, $CellContext`dx}]; $CellContext`VPlot[$CellContext`i] = \
+$CellContext`V; $CellContext`psi = LinearSolve[
+                
+                SparseArray[{
+                 Band[{1, 2}] -> $CellContext`blist, 
+                  Band[{1, 1}] -> $CellContext`a - 2 $CellContext`b - (1/2) 
+                   Part[$CellContext`V, All], 
+                  Band[{2, 1}] -> $CellContext`blist}], ($CellContext`a + 
+                  2 $CellContext`b + (1/2) Part[$CellContext`V, All]) 
+                 Part[$CellContext`psi, All] - $CellContext`b 
+                Table[2 
+                  Part[$CellContext`psi, $CellContext`j], {$CellContext`j, 
+                   1, $CellContext`n}]]; $CellContext`PsiN[$CellContext`i] = \
+$CellContext`psi; $CellContext`PsiAbs[$CellContext`i] = $CellContext`psi 
+               Conjugate[$CellContext`psi]; $CellContext`PsiAbsOld = Partition[
+                Flatten[
+                 Table[{$CellContext`i1, 
+                   Part[
+                    $CellContext`PsiAbs[$CellContext`i], $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiAbsN = 
+              Interpolation[$CellContext`PsiAbsOld, Method -> 
+                "Spline"]; $CellContext`qpot[
+                Pattern[$CellContext`x, 
+                 Blank[]]][$CellContext`i] = (-
+                D[$CellContext`PsiAbsN[$CellContext`x]^
+                  Rational[1, 2], {$CellContext`x, 
+                   2}])/$CellContext`PsiAbsN[$CellContext`x]^Rational[1, 2]; 
+             Do[{$CellContext`xort = Round[
+                   
+                   Part[$CellContext`Pos, $CellContext`nr]]; \
+$CellContext`PsiOld = Partition[
+                   Flatten[
+                    Table[{$CellContext`i1, 
+                    
+                    Part[$CellContext`psi, $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiNI = 
+                 Interpolation[$CellContext`PsiOld]; $CellContext`vx[
+                   Pattern[$CellContext`x, 
+                    Blank[]]] = Im[D[
+                    $CellContext`PsiNI[$CellContext`x], {$CellContext`x, 
+                    1}]/$CellContext`PsiNI[$CellContext`x]]/$CellContext`dx; \
+$CellContext`newx = 
+                 Part[$CellContext`Pos, $CellContext`nr] $CellContext`dx + ((
+                    20/40) $CellContext`vx[$CellContext`xort]) \
+$CellContext`dt; 
+                Part[$CellContext`Pos, $CellContext`nr] = \
+$CellContext`newx/$CellContext`dx; $CellContext`Traj[$CellContext`i, \
+$CellContext`nr] = $CellContext`newx $CellContext`n; Null}, {$CellContext`nr, 
+                1, 
+                Length[$CellContext`Pos], 1}]}] ($CellContext`all = Join[
+             Table[Abs[
+                $CellContext`PsiN[$CellContext`i]]^2, {$CellContext`i, 
+               1, $CellContext`TimeEnd, 1}]]); GraphicsRow[{
+            Show[{
+              
+              ListPlot[$CellContext`VPlot[$CellContext`steps]/5, Joined -> 
+               True, PlotRange -> {-2, 3}, Axes -> False, 
+               AspectRatio -> $CellContext`AR, PlotStyle -> {Thick, Blue}], 
+              ListPlot[
+               Abs[
+                $CellContext`PsiN[$CellContext`steps]], Joined -> True, 
+               PlotRange -> All, PlotStyle -> {Thick, Orange}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              
+              Plot[$CellContext`qpot[$CellContext`x][$CellContext`steps] - 
+               0.2, {$CellContext`x, 10, $CellContext`n - 10}, PlotRange -> 
+               All, PlotStyle -> {Thick, Red}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              Graphics[
+               Table[{
+                 PointSize[Large], 
+                 Part[$CellContext`colors, $CellContext`nr], 
+                 Point[{
+                   $CellContext`Traj[$CellContext`steps, $CellContext`nr], 
+                   0.1}]}, {$CellContext`nr, 1, 
+                 Length[$CellContext`Pos], 1}], 
+               AspectRatio -> $CellContext`AR]}, 
+             Background -> $CellContext`BColor], 
+            Show[{
+              
+              ListDensityPlot[$CellContext`all, MaxPlotPoints -> 50, Frame -> 
+               False, ColorFunction -> "ThermometerColors", 
+               AspectRatio -> $CellContext`AR, PerformanceGoal -> "Quality"], 
+              Table[
+               ListPlot[
+                Table[{
+                  $CellContext`Traj[$CellContext`i, $CellContext`j], \
+$CellContext`i}, {$CellContext`i, 1, $CellContext`steps, 1}], Joined -> True, 
+                PlotRange -> All, PlotStyle -> {Thick, 
+                  Part[$CellContext`colors, $CellContext`j]}, Axes -> False, 
+                AspectRatio -> $CellContext`AR], {$CellContext`j, 1, 
+                Length[$CellContext`Pos], 1}]}, PlotRange -> All, Axes -> 
+             False, AspectRatio -> $CellContext`AR]}, 
+           Background -> {$CellContext`BColor, $CellContext`BColor}, 
+           ImageSize -> {500}, AspectRatio -> $CellContext`AR/2]]]; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->1060406111]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "SnapshotsSection"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`e0$$ = 0.65, $CellContext`lambda$$ = 
+    0.6, $CellContext`steps$$ = 401, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`steps$$], 401, "time steps"}, 1, 401, 20}, {{
+       Hold[$CellContext`e0$$], 0.65, "perturbation potential"}, 0.1, 2, 
+      0.05}, {{
+       Hold[$CellContext`lambda$$], 0.6, "frequency correction factor"}, 0.1, 
+      2.2, 0.05}}, Typeset`size$$ = {500., {206., 211.}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    False, $CellContext`steps$973$$ = 0, $CellContext`e0$974$$ = 
+    0, $CellContext`lambda$975$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`e0$$ = 0.65, $CellContext`lambda$$ = 
+        0.6, $CellContext`steps$$ = 401}, "ControllerVariables" :> {
+        Hold[$CellContext`steps$$, $CellContext`steps$973$$, 0], 
+        Hold[$CellContext`e0$$, $CellContext`e0$974$$, 0], 
+        Hold[$CellContext`lambda$$, $CellContext`lambda$975$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Quiet[
+        $CellContext`TDPot[$CellContext`e0$$, $CellContext`steps$$, \
+$CellContext`lambda$$, ImageSize -> {250, 400}]], 
+      "Specifications" :> {{{$CellContext`steps$$, 401, "time steps"}, 1, 401,
+          20, Appearance -> "Labeled", ImageSize -> 
+         Small}, {{$CellContext`e0$$, 0.65, "perturbation potential"}, 0.1, 2,
+          0.05, Appearance -> "Labeled", ImageSize -> 
+         Small}, {{$CellContext`lambda$$, 0.6, "frequency correction factor"},
+          0.1, 2.2, 0.05, Appearance -> "Labeled", ImageSize -> Small}}, 
+      "Options" :> {
+       ControlPlacement -> Top, SynchronousUpdating -> False, 
+        TrackedSymbols :> {$CellContext`steps$$, $CellContext`e0$$, \
+$CellContext`lambda$$}}, "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{549., {273., 278.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>($CellContext`TDPot[
+        Pattern[$CellContext`e0, 
+         Blank[]], 
+        Pattern[$CellContext`steps, 
+         Blank[]], 
+        Pattern[$CellContext`lambda, 
+         Blank[]], 
+        Pattern[$CellContext`opts, 
+         BlankNullSequence[]]] := Quiet[
+        Module[{$CellContext`n, $CellContext`dx, $CellContext`hbar, \
+$CellContext`m, $CellContext`dt, $CellContext`a, $CellContext`b, \
+$CellContext`xBeg, $CellContext`TimeEnd, $CellContext`psi, $CellContext`Pos, \
+$CellContext`V, $CellContext`ps, $CellContext`blist, $CellContext`colors, \
+$CellContext`x, $CellContext`all, $CellContext`VPlot, $CellContext`nr, \
+$CellContext`newx, $CellContext`PsiN, $CellContext`PsiAbs, \
+$CellContext`PsiAbsOld, $CellContext`PsiAbsN, $CellContext`qpot, \
+$CellContext`vx, $CellContext`xort, $CellContext`PsiNI, $CellContext`PsiOld, \
+$CellContext`Traj, $CellContext`i, $CellContext`j, $CellContext`AR, \
+$CellContext`BColor}, $CellContext`n = 70; $CellContext`dx = 
+          1./($CellContext`n - 1); $CellContext`hbar = ($CellContext`m = 
+           1); $CellContext`dt = ($CellContext`m \
+($CellContext`dx^2/$CellContext`hbar)) 15; $CellContext`a = 
+          I ($CellContext`hbar/$CellContext`dt); $CellContext`b = \
+$CellContext`hbar^2/((4 $CellContext`m) $CellContext`dx^2); $CellContext`xBeg = 
+          0.5; $CellContext`TimeEnd = 401; $CellContext`AR = 
+          5/3; $CellContext`BColor = Black; $CellContext`psi = Table[
+            Cos[
+            Pi ($CellContext`x - 0.5)], {$CellContext`x, 0, 
+             1, $CellContext`dx}]; $CellContext`Pos = 
+          Table[($CellContext`xBeg + $CellContext`i) $CellContext`n, \
+{$CellContext`i, -0.3, 0.3, 0.3/3}]; $CellContext`colors = Table[
+            
+            Blend[{Orange, Green}, $CellContext`j], {$CellContext`j, 0, 1, 1/
+             Length[$CellContext`Pos]}]; $CellContext`ps = Table[{Thick, 
+             Part[$CellContext`colors, $CellContext`j]}, {$CellContext`j, 1, 
+             Length[$CellContext`Pos], 1}]; $CellContext`blist = 
+          Table[$CellContext`b, {$CellContext`n - 1}]; 
+         For[$CellContext`i = 1, $CellContext`i <= $CellContext`TimeEnd, 
+            
+            Increment[$CellContext`i], {$CellContext`V = 
+              Table[(($CellContext`e0 $CellContext`n) ($CellContext`x - 0.5)) 
+                Sin[((($CellContext`lambda 3) (Pi^2/
+                    2)) $CellContext`i) $CellContext`dt], {$CellContext`x, 0, 
+                 1, $CellContext`dx}]; $CellContext`VPlot[$CellContext`i] = \
+$CellContext`V; $CellContext`psi = LinearSolve[
+                
+                SparseArray[{
+                 Band[{1, 2}] -> $CellContext`blist, 
+                  Band[{1, 1}] -> $CellContext`a - 2 $CellContext`b - (1/2) 
+                   Part[$CellContext`V, All], 
+                  Band[{2, 1}] -> $CellContext`blist}], ($CellContext`a + 
+                  2 $CellContext`b + (1/2) Part[$CellContext`V, All]) 
+                 Part[$CellContext`psi, All] - $CellContext`b 
+                Table[2 
+                  Part[$CellContext`psi, $CellContext`j], {$CellContext`j, 
+                   1, $CellContext`n}]]; $CellContext`PsiN[$CellContext`i] = \
+$CellContext`psi; $CellContext`PsiAbs[$CellContext`i] = $CellContext`psi 
+               Conjugate[$CellContext`psi]; $CellContext`PsiAbsOld = Partition[
+                Flatten[
+                 Table[{$CellContext`i1, 
+                   Part[
+                    $CellContext`PsiAbs[$CellContext`i], $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiAbsN = 
+              Interpolation[$CellContext`PsiAbsOld, Method -> 
+                "Spline"]; $CellContext`qpot[
+                Pattern[$CellContext`x, 
+                 Blank[]]][$CellContext`i] = (-
+                D[$CellContext`PsiAbsN[$CellContext`x]^
+                  Rational[1, 2], {$CellContext`x, 
+                   2}])/$CellContext`PsiAbsN[$CellContext`x]^Rational[1, 2]; 
+             Do[{$CellContext`xort = Round[
+                   
+                   Part[$CellContext`Pos, $CellContext`nr]]; \
+$CellContext`PsiOld = Partition[
+                   Flatten[
+                    Table[{$CellContext`i1, 
+                    
+                    Part[$CellContext`psi, $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiNI = 
+                 Interpolation[$CellContext`PsiOld]; $CellContext`vx[
+                   Pattern[$CellContext`x, 
+                    Blank[]]] = Im[D[
+                    $CellContext`PsiNI[$CellContext`x], {$CellContext`x, 
+                    1}]/$CellContext`PsiNI[$CellContext`x]]/$CellContext`dx; \
+$CellContext`newx = 
+                 Part[$CellContext`Pos, $CellContext`nr] $CellContext`dx + ((
+                    20/40) $CellContext`vx[$CellContext`xort]) \
+$CellContext`dt; 
+                Part[$CellContext`Pos, $CellContext`nr] = \
+$CellContext`newx/$CellContext`dx; $CellContext`Traj[$CellContext`i, \
+$CellContext`nr] = $CellContext`newx $CellContext`n; Null}, {$CellContext`nr, 
+                1, 
+                Length[$CellContext`Pos], 1}]}] ($CellContext`all = Join[
+             Table[Abs[
+                $CellContext`PsiN[$CellContext`i]]^2, {$CellContext`i, 
+               1, $CellContext`TimeEnd, 1}]]); GraphicsRow[{
+            Show[{
+              
+              ListPlot[$CellContext`VPlot[$CellContext`steps]/5, Joined -> 
+               True, PlotRange -> {-2, 3}, Axes -> False, 
+               AspectRatio -> $CellContext`AR, PlotStyle -> {Thick, Blue}], 
+              ListPlot[
+               Abs[
+                $CellContext`PsiN[$CellContext`steps]], Joined -> True, 
+               PlotRange -> All, PlotStyle -> {Thick, Orange}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              
+              Plot[$CellContext`qpot[$CellContext`x][$CellContext`steps] - 
+               0.2, {$CellContext`x, 10, $CellContext`n - 10}, PlotRange -> 
+               All, PlotStyle -> {Thick, Red}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              Graphics[
+               Table[{
+                 PointSize[Large], 
+                 Part[$CellContext`colors, $CellContext`nr], 
+                 Point[{
+                   $CellContext`Traj[$CellContext`steps, $CellContext`nr], 
+                   0.1}]}, {$CellContext`nr, 1, 
+                 Length[$CellContext`Pos], 1}], 
+               AspectRatio -> $CellContext`AR]}, 
+             Background -> $CellContext`BColor], 
+            Show[{
+              
+              ListDensityPlot[$CellContext`all, MaxPlotPoints -> 50, Frame -> 
+               False, ColorFunction -> "ThermometerColors", 
+               AspectRatio -> $CellContext`AR, PerformanceGoal -> "Quality"], 
+              Table[
+               ListPlot[
+                Table[{
+                  $CellContext`Traj[$CellContext`i, $CellContext`j], \
+$CellContext`i}, {$CellContext`i, 1, $CellContext`steps, 1}], Joined -> True, 
+                PlotRange -> All, PlotStyle -> {Thick, 
+                  Part[$CellContext`colors, $CellContext`j]}, Axes -> False, 
+                AspectRatio -> $CellContext`AR], {$CellContext`j, 1, 
+                Length[$CellContext`Pos], 1}]}, PlotRange -> All, Axes -> 
+             False, AspectRatio -> $CellContext`AR]}, 
+           Background -> {$CellContext`BColor, $CellContext`BColor}, 
+           ImageSize -> {500}, AspectRatio -> $CellContext`AR/2]]]; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->278721124],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`e0$$ = 
+    0.9500000000000001, $CellContext`lambda$$ = 
+    0.30000000000000004`, $CellContext`steps$$ = 401, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`steps$$], 401, "time steps"}, 1, 401, 20}, {{
+       Hold[$CellContext`e0$$], 0.9500000000000001, "perturbation potential"},
+       0.1, 2, 0.05}, {{
+       Hold[$CellContext`lambda$$], 0.30000000000000004`, 
+       "frequency correction factor"}, 0.1, 2.2, 0.05}}, Typeset`size$$ = {
+    500., {206., 211.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = False, $CellContext`steps$1035$$ = 
+    0, $CellContext`e0$1036$$ = 0, $CellContext`lambda$1037$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`e0$$ = 
+        0.9500000000000001, $CellContext`lambda$$ = 
+        0.30000000000000004`, $CellContext`steps$$ = 401}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`steps$$, $CellContext`steps$1035$$, 0], 
+        Hold[$CellContext`e0$$, $CellContext`e0$1036$$, 0], 
+        Hold[$CellContext`lambda$$, $CellContext`lambda$1037$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Quiet[
+        $CellContext`TDPot[$CellContext`e0$$, $CellContext`steps$$, \
+$CellContext`lambda$$, ImageSize -> {250, 400}]], 
+      "Specifications" :> {{{$CellContext`steps$$, 401, "time steps"}, 1, 401,
+          20, Appearance -> "Labeled", ImageSize -> 
+         Small}, {{$CellContext`e0$$, 0.9500000000000001, 
+          "perturbation potential"}, 0.1, 2, 0.05, Appearance -> "Labeled", 
+         ImageSize -> 
+         Small}, {{$CellContext`lambda$$, 0.30000000000000004`, 
+          "frequency correction factor"}, 0.1, 2.2, 0.05, Appearance -> 
+         "Labeled", ImageSize -> Small}}, 
+      "Options" :> {
+       ControlPlacement -> Top, SynchronousUpdating -> False, 
+        TrackedSymbols :> {$CellContext`steps$$, $CellContext`e0$$, \
+$CellContext`lambda$$}}, "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{549., {273., 278.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>($CellContext`TDPot[
+        Pattern[$CellContext`e0, 
+         Blank[]], 
+        Pattern[$CellContext`steps, 
+         Blank[]], 
+        Pattern[$CellContext`lambda, 
+         Blank[]], 
+        Pattern[$CellContext`opts, 
+         BlankNullSequence[]]] := Quiet[
+        Module[{$CellContext`n, $CellContext`dx, $CellContext`hbar, \
+$CellContext`m, $CellContext`dt, $CellContext`a, $CellContext`b, \
+$CellContext`xBeg, $CellContext`TimeEnd, $CellContext`psi, $CellContext`Pos, \
+$CellContext`V, $CellContext`ps, $CellContext`blist, $CellContext`colors, \
+$CellContext`x, $CellContext`all, $CellContext`VPlot, $CellContext`nr, \
+$CellContext`newx, $CellContext`PsiN, $CellContext`PsiAbs, \
+$CellContext`PsiAbsOld, $CellContext`PsiAbsN, $CellContext`qpot, \
+$CellContext`vx, $CellContext`xort, $CellContext`PsiNI, $CellContext`PsiOld, \
+$CellContext`Traj, $CellContext`i, $CellContext`j, $CellContext`AR, \
+$CellContext`BColor}, $CellContext`n = 70; $CellContext`dx = 
+          1./($CellContext`n - 1); $CellContext`hbar = ($CellContext`m = 
+           1); $CellContext`dt = ($CellContext`m \
+($CellContext`dx^2/$CellContext`hbar)) 15; $CellContext`a = 
+          I ($CellContext`hbar/$CellContext`dt); $CellContext`b = \
+$CellContext`hbar^2/((4 $CellContext`m) $CellContext`dx^2); $CellContext`xBeg = 
+          0.5; $CellContext`TimeEnd = 401; $CellContext`AR = 
+          5/3; $CellContext`BColor = Black; $CellContext`psi = Table[
+            Cos[
+            Pi ($CellContext`x - 0.5)], {$CellContext`x, 0, 
+             1, $CellContext`dx}]; $CellContext`Pos = 
+          Table[($CellContext`xBeg + $CellContext`i) $CellContext`n, \
+{$CellContext`i, -0.3, 0.3, 0.3/3}]; $CellContext`colors = Table[
+            
+            Blend[{Orange, Green}, $CellContext`j], {$CellContext`j, 0, 1, 1/
+             Length[$CellContext`Pos]}]; $CellContext`ps = Table[{Thick, 
+             Part[$CellContext`colors, $CellContext`j]}, {$CellContext`j, 1, 
+             Length[$CellContext`Pos], 1}]; $CellContext`blist = 
+          Table[$CellContext`b, {$CellContext`n - 1}]; 
+         For[$CellContext`i = 1, $CellContext`i <= $CellContext`TimeEnd, 
+            
+            Increment[$CellContext`i], {$CellContext`V = 
+              Table[(($CellContext`e0 $CellContext`n) ($CellContext`x - 0.5)) 
+                Sin[((($CellContext`lambda 3) (Pi^2/
+                    2)) $CellContext`i) $CellContext`dt], {$CellContext`x, 0, 
+                 1, $CellContext`dx}]; $CellContext`VPlot[$CellContext`i] = \
+$CellContext`V; $CellContext`psi = LinearSolve[
+                
+                SparseArray[{
+                 Band[{1, 2}] -> $CellContext`blist, 
+                  Band[{1, 1}] -> $CellContext`a - 2 $CellContext`b - (1/2) 
+                   Part[$CellContext`V, All], 
+                  Band[{2, 1}] -> $CellContext`blist}], ($CellContext`a + 
+                  2 $CellContext`b + (1/2) Part[$CellContext`V, All]) 
+                 Part[$CellContext`psi, All] - $CellContext`b 
+                Table[2 
+                  Part[$CellContext`psi, $CellContext`j], {$CellContext`j, 
+                   1, $CellContext`n}]]; $CellContext`PsiN[$CellContext`i] = \
+$CellContext`psi; $CellContext`PsiAbs[$CellContext`i] = $CellContext`psi 
+               Conjugate[$CellContext`psi]; $CellContext`PsiAbsOld = Partition[
+                Flatten[
+                 Table[{$CellContext`i1, 
+                   Part[
+                    $CellContext`PsiAbs[$CellContext`i], $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiAbsN = 
+              Interpolation[$CellContext`PsiAbsOld, Method -> 
+                "Spline"]; $CellContext`qpot[
+                Pattern[$CellContext`x, 
+                 Blank[]]][$CellContext`i] = (-
+                D[$CellContext`PsiAbsN[$CellContext`x]^
+                  Rational[1, 2], {$CellContext`x, 
+                   2}])/$CellContext`PsiAbsN[$CellContext`x]^Rational[1, 2]; 
+             Do[{$CellContext`xort = Round[
+                   
+                   Part[$CellContext`Pos, $CellContext`nr]]; \
+$CellContext`PsiOld = Partition[
+                   Flatten[
+                    Table[{$CellContext`i1, 
+                    
+                    Part[$CellContext`psi, $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiNI = 
+                 Interpolation[$CellContext`PsiOld]; $CellContext`vx[
+                   Pattern[$CellContext`x, 
+                    Blank[]]] = Im[D[
+                    $CellContext`PsiNI[$CellContext`x], {$CellContext`x, 
+                    1}]/$CellContext`PsiNI[$CellContext`x]]/$CellContext`dx; \
+$CellContext`newx = 
+                 Part[$CellContext`Pos, $CellContext`nr] $CellContext`dx + ((
+                    20/40) $CellContext`vx[$CellContext`xort]) \
+$CellContext`dt; 
+                Part[$CellContext`Pos, $CellContext`nr] = \
+$CellContext`newx/$CellContext`dx; $CellContext`Traj[$CellContext`i, \
+$CellContext`nr] = $CellContext`newx $CellContext`n; Null}, {$CellContext`nr, 
+                1, 
+                Length[$CellContext`Pos], 1}]}] ($CellContext`all = Join[
+             Table[Abs[
+                $CellContext`PsiN[$CellContext`i]]^2, {$CellContext`i, 
+               1, $CellContext`TimeEnd, 1}]]); GraphicsRow[{
+            Show[{
+              
+              ListPlot[$CellContext`VPlot[$CellContext`steps]/5, Joined -> 
+               True, PlotRange -> {-2, 3}, Axes -> False, 
+               AspectRatio -> $CellContext`AR, PlotStyle -> {Thick, Blue}], 
+              ListPlot[
+               Abs[
+                $CellContext`PsiN[$CellContext`steps]], Joined -> True, 
+               PlotRange -> All, PlotStyle -> {Thick, Orange}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              
+              Plot[$CellContext`qpot[$CellContext`x][$CellContext`steps] - 
+               0.2, {$CellContext`x, 10, $CellContext`n - 10}, PlotRange -> 
+               All, PlotStyle -> {Thick, Red}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              Graphics[
+               Table[{
+                 PointSize[Large], 
+                 Part[$CellContext`colors, $CellContext`nr], 
+                 Point[{
+                   $CellContext`Traj[$CellContext`steps, $CellContext`nr], 
+                   0.1}]}, {$CellContext`nr, 1, 
+                 Length[$CellContext`Pos], 1}], 
+               AspectRatio -> $CellContext`AR]}, 
+             Background -> $CellContext`BColor], 
+            Show[{
+              
+              ListDensityPlot[$CellContext`all, MaxPlotPoints -> 50, Frame -> 
+               False, ColorFunction -> "ThermometerColors", 
+               AspectRatio -> $CellContext`AR, PerformanceGoal -> "Quality"], 
+              Table[
+               ListPlot[
+                Table[{
+                  $CellContext`Traj[$CellContext`i, $CellContext`j], \
+$CellContext`i}, {$CellContext`i, 1, $CellContext`steps, 1}], Joined -> True, 
+                PlotRange -> All, PlotStyle -> {Thick, 
+                  Part[$CellContext`colors, $CellContext`j]}, Axes -> False, 
+                AspectRatio -> $CellContext`AR], {$CellContext`j, 1, 
+                Length[$CellContext`Pos], 1}]}, PlotRange -> All, Axes -> 
+             False, AspectRatio -> $CellContext`AR]}, 
+           Background -> {$CellContext`BColor, $CellContext`BColor}, 
+           ImageSize -> {500}, AspectRatio -> $CellContext`AR/2]]]; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->804096961],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`e0$$ = 
+    1.4000000000000001`, $CellContext`lambda$$ = 0.85, $CellContext`steps$$ = 
+    401, Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`steps$$], 401, "time steps"}, 1, 401, 20}, {{
+       Hold[$CellContext`e0$$], 1.4000000000000001`, 
+       "perturbation potential"}, 0.1, 2, 0.05}, {{
+       Hold[$CellContext`lambda$$], 0.85, "frequency correction factor"}, 0.1,
+       2.2, 0.05}}, Typeset`size$$ = {500., {206., 211.}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    False, $CellContext`steps$1097$$ = 0, $CellContext`e0$1098$$ = 
+    0, $CellContext`lambda$1099$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`e0$$ = 
+        1.4000000000000001`, $CellContext`lambda$$ = 
+        0.85, $CellContext`steps$$ = 401}, "ControllerVariables" :> {
+        Hold[$CellContext`steps$$, $CellContext`steps$1097$$, 0], 
+        Hold[$CellContext`e0$$, $CellContext`e0$1098$$, 0], 
+        Hold[$CellContext`lambda$$, $CellContext`lambda$1099$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Quiet[
+        $CellContext`TDPot[$CellContext`e0$$, $CellContext`steps$$, \
+$CellContext`lambda$$, ImageSize -> {250, 400}]], 
+      "Specifications" :> {{{$CellContext`steps$$, 401, "time steps"}, 1, 401,
+          20, Appearance -> "Labeled", ImageSize -> 
+         Small}, {{$CellContext`e0$$, 1.4000000000000001`, 
+          "perturbation potential"}, 0.1, 2, 0.05, Appearance -> "Labeled", 
+         ImageSize -> 
+         Small}, {{$CellContext`lambda$$, 0.85, 
+          "frequency correction factor"}, 0.1, 2.2, 0.05, Appearance -> 
+         "Labeled", ImageSize -> Small}}, 
+      "Options" :> {
+       ControlPlacement -> Top, SynchronousUpdating -> False, 
+        TrackedSymbols :> {$CellContext`steps$$, $CellContext`e0$$, \
+$CellContext`lambda$$}}, "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{549., {273., 278.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>($CellContext`TDPot[
+        Pattern[$CellContext`e0, 
+         Blank[]], 
+        Pattern[$CellContext`steps, 
+         Blank[]], 
+        Pattern[$CellContext`lambda, 
+         Blank[]], 
+        Pattern[$CellContext`opts, 
+         BlankNullSequence[]]] := Quiet[
+        Module[{$CellContext`n, $CellContext`dx, $CellContext`hbar, \
+$CellContext`m, $CellContext`dt, $CellContext`a, $CellContext`b, \
+$CellContext`xBeg, $CellContext`TimeEnd, $CellContext`psi, $CellContext`Pos, \
+$CellContext`V, $CellContext`ps, $CellContext`blist, $CellContext`colors, \
+$CellContext`x, $CellContext`all, $CellContext`VPlot, $CellContext`nr, \
+$CellContext`newx, $CellContext`PsiN, $CellContext`PsiAbs, \
+$CellContext`PsiAbsOld, $CellContext`PsiAbsN, $CellContext`qpot, \
+$CellContext`vx, $CellContext`xort, $CellContext`PsiNI, $CellContext`PsiOld, \
+$CellContext`Traj, $CellContext`i, $CellContext`j, $CellContext`AR, \
+$CellContext`BColor}, $CellContext`n = 70; $CellContext`dx = 
+          1./($CellContext`n - 1); $CellContext`hbar = ($CellContext`m = 
+           1); $CellContext`dt = ($CellContext`m \
+($CellContext`dx^2/$CellContext`hbar)) 15; $CellContext`a = 
+          I ($CellContext`hbar/$CellContext`dt); $CellContext`b = \
+$CellContext`hbar^2/((4 $CellContext`m) $CellContext`dx^2); $CellContext`xBeg = 
+          0.5; $CellContext`TimeEnd = 401; $CellContext`AR = 
+          5/3; $CellContext`BColor = Black; $CellContext`psi = Table[
+            Cos[
+            Pi ($CellContext`x - 0.5)], {$CellContext`x, 0, 
+             1, $CellContext`dx}]; $CellContext`Pos = 
+          Table[($CellContext`xBeg + $CellContext`i) $CellContext`n, \
+{$CellContext`i, -0.3, 0.3, 0.3/3}]; $CellContext`colors = Table[
+            
+            Blend[{Orange, Green}, $CellContext`j], {$CellContext`j, 0, 1, 1/
+             Length[$CellContext`Pos]}]; $CellContext`ps = Table[{Thick, 
+             Part[$CellContext`colors, $CellContext`j]}, {$CellContext`j, 1, 
+             Length[$CellContext`Pos], 1}]; $CellContext`blist = 
+          Table[$CellContext`b, {$CellContext`n - 1}]; 
+         For[$CellContext`i = 1, $CellContext`i <= $CellContext`TimeEnd, 
+            
+            Increment[$CellContext`i], {$CellContext`V = 
+              Table[(($CellContext`e0 $CellContext`n) ($CellContext`x - 0.5)) 
+                Sin[((($CellContext`lambda 3) (Pi^2/
+                    2)) $CellContext`i) $CellContext`dt], {$CellContext`x, 0, 
+                 1, $CellContext`dx}]; $CellContext`VPlot[$CellContext`i] = \
+$CellContext`V; $CellContext`psi = LinearSolve[
+                
+                SparseArray[{
+                 Band[{1, 2}] -> $CellContext`blist, 
+                  Band[{1, 1}] -> $CellContext`a - 2 $CellContext`b - (1/2) 
+                   Part[$CellContext`V, All], 
+                  Band[{2, 1}] -> $CellContext`blist}], ($CellContext`a + 
+                  2 $CellContext`b + (1/2) Part[$CellContext`V, All]) 
+                 Part[$CellContext`psi, All] - $CellContext`b 
+                Table[2 
+                  Part[$CellContext`psi, $CellContext`j], {$CellContext`j, 
+                   1, $CellContext`n}]]; $CellContext`PsiN[$CellContext`i] = \
+$CellContext`psi; $CellContext`PsiAbs[$CellContext`i] = $CellContext`psi 
+               Conjugate[$CellContext`psi]; $CellContext`PsiAbsOld = Partition[
+                Flatten[
+                 Table[{$CellContext`i1, 
+                   Part[
+                    $CellContext`PsiAbs[$CellContext`i], $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiAbsN = 
+              Interpolation[$CellContext`PsiAbsOld, Method -> 
+                "Spline"]; $CellContext`qpot[
+                Pattern[$CellContext`x, 
+                 Blank[]]][$CellContext`i] = (-
+                D[$CellContext`PsiAbsN[$CellContext`x]^
+                  Rational[1, 2], {$CellContext`x, 
+                   2}])/$CellContext`PsiAbsN[$CellContext`x]^Rational[1, 2]; 
+             Do[{$CellContext`xort = Round[
+                   
+                   Part[$CellContext`Pos, $CellContext`nr]]; \
+$CellContext`PsiOld = Partition[
+                   Flatten[
+                    Table[{$CellContext`i1, 
+                    
+                    Part[$CellContext`psi, $CellContext`i1]}, \
+{$CellContext`i1, 1, $CellContext`n}]], 2]; $CellContext`PsiNI = 
+                 Interpolation[$CellContext`PsiOld]; $CellContext`vx[
+                   Pattern[$CellContext`x, 
+                    Blank[]]] = Im[D[
+                    $CellContext`PsiNI[$CellContext`x], {$CellContext`x, 
+                    1}]/$CellContext`PsiNI[$CellContext`x]]/$CellContext`dx; \
+$CellContext`newx = 
+                 Part[$CellContext`Pos, $CellContext`nr] $CellContext`dx + ((
+                    20/40) $CellContext`vx[$CellContext`xort]) \
+$CellContext`dt; 
+                Part[$CellContext`Pos, $CellContext`nr] = \
+$CellContext`newx/$CellContext`dx; $CellContext`Traj[$CellContext`i, \
+$CellContext`nr] = $CellContext`newx $CellContext`n; Null}, {$CellContext`nr, 
+                1, 
+                Length[$CellContext`Pos], 1}]}] ($CellContext`all = Join[
+             Table[Abs[
+                $CellContext`PsiN[$CellContext`i]]^2, {$CellContext`i, 
+               1, $CellContext`TimeEnd, 1}]]); GraphicsRow[{
+            Show[{
+              
+              ListPlot[$CellContext`VPlot[$CellContext`steps]/5, Joined -> 
+               True, PlotRange -> {-2, 3}, Axes -> False, 
+               AspectRatio -> $CellContext`AR, PlotStyle -> {Thick, Blue}], 
+              ListPlot[
+               Abs[
+                $CellContext`PsiN[$CellContext`steps]], Joined -> True, 
+               PlotRange -> All, PlotStyle -> {Thick, Orange}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              
+              Plot[$CellContext`qpot[$CellContext`x][$CellContext`steps] - 
+               0.2, {$CellContext`x, 10, $CellContext`n - 10}, PlotRange -> 
+               All, PlotStyle -> {Thick, Red}, Axes -> False, 
+               AspectRatio -> $CellContext`AR], 
+              Graphics[
+               Table[{
+                 PointSize[Large], 
+                 Part[$CellContext`colors, $CellContext`nr], 
+                 Point[{
+                   $CellContext`Traj[$CellContext`steps, $CellContext`nr], 
+                   0.1}]}, {$CellContext`nr, 1, 
+                 Length[$CellContext`Pos], 1}], 
+               AspectRatio -> $CellContext`AR]}, 
+             Background -> $CellContext`BColor], 
+            Show[{
+              
+              ListDensityPlot[$CellContext`all, MaxPlotPoints -> 50, Frame -> 
+               False, ColorFunction -> "ThermometerColors", 
+               AspectRatio -> $CellContext`AR, PerformanceGoal -> "Quality"], 
+              Table[
+               ListPlot[
+                Table[{
+                  $CellContext`Traj[$CellContext`i, $CellContext`j], \
+$CellContext`i}, {$CellContext`i, 1, $CellContext`steps, 1}], Joined -> True, 
+                PlotRange -> All, PlotStyle -> {Thick, 
+                  Part[$CellContext`colors, $CellContext`j]}, Axes -> False, 
+                AspectRatio -> $CellContext`AR], {$CellContext`j, 1, 
+                Length[$CellContext`Pos], 1}]}, PlotRange -> All, Axes -> 
+             False, AspectRatio -> $CellContext`AR]}, 
+           Background -> {$CellContext`BColor, $CellContext`BColor}, 
+           ImageSize -> {500}, AspectRatio -> $CellContext`AR/2]]]; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->343032956]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "DetailsSection"],
+
+Cell["\<\
+The numerical methods to calculate the velocity and the quantum potential \
+from a discrete function are, in general, not very stable, but the applied \
+interpolation functions lead to an accurate approximation of the physical \
+event.\
+\>", "DetailNotes",
+ CellChangeTimes->{{3.5731947670035305`*^9, 3.573194785177562*^9}, {
+   3.5731948411514597`*^9, 3.57319484116706*^9}, {3.5731948742391176`*^9, 
+   3.5731948742391176`*^9}, {3.5731949056575727`*^9, 
+   3.5731949056575727`*^9}, {3.573195551333099*^9, 3.573195561753917*^9}, {
+   3.5731973368420906`*^9, 3.5731973512565155`*^9}, {3.5731973940461874`*^9, 
+   3.573197423396228*^9}, 3.573197539643799*^9, {3.573285518923649*^9, 
+   3.573285522012454*^9}, {3.5733538215514746`*^9, 3.5733538387115045`*^9}, {
+   3.573698002008193*^9, 3.5736980309618435`*^9}, {3.5736982180841703`*^9, 
+   3.5736982902654963`*^9}, {3.575167303511587*^9, 3.5751673075519943`*^9}, {
+   3.5751686754907427`*^9, 3.575168680685551*^9}, {3.575168772179711*^9, 
+   3.575168772522911*^9}, {3.5751690624650173`*^9, 3.5751690635882187`*^9}, {
+   3.5751781585862417`*^9, 3.575178161519047*^9}, {3.575178247549997*^9, 
+   3.5751782515280037`*^9}, {3.575517729350968*^9, 3.575517733547375*^9}, {
+   3.575640865330595*^9, 3.575640865342596*^9}, {3.5756412643244905`*^9, 
+   3.575641264326491*^9}},
+ CellID->393770319],
+
+Cell["\<\
+For speed, contrary to custom the time steps are increased and the mesh \
+points are decreased, so that the final results have only qualitative \
+character in some cases. Further investigations are needed to find precise \
+parameters for the transition process (for an example, see the YouTube video \
+by the author [1].\
+\>", "DetailNotes",
+ CellChangeTimes->{{3.5731947670035305`*^9, 3.573194785177562*^9}, {
+   3.5731948411514597`*^9, 3.57319484116706*^9}, {3.5731948742391176`*^9, 
+   3.5731948742391176`*^9}, {3.5731949056575727`*^9, 
+   3.5731949056575727`*^9}, {3.573195551333099*^9, 3.573195561753917*^9}, {
+   3.5731973368420906`*^9, 3.5731973512565155`*^9}, {3.5731973940461874`*^9, 
+   3.573197423396228*^9}, 3.573197539643799*^9, {3.573285518923649*^9, 
+   3.573285522012454*^9}, {3.5733538215514746`*^9, 3.5733538387115045`*^9}, {
+   3.573698002008193*^9, 3.5736980309618435`*^9}, {3.5736982180841703`*^9, 
+   3.5736982902654963`*^9}, {3.575167303511587*^9, 3.5751673075519943`*^9}, {
+   3.5751686754907427`*^9, 3.575168680685551*^9}, {3.575168772179711*^9, 
+   3.575168772522911*^9}, {3.5751690624650173`*^9, 3.5751690635882187`*^9}, {
+   3.5751781585862417`*^9, 3.575178161519047*^9}, {3.575178247549997*^9, 
+   3.5751782515280037`*^9}, {3.575517729350968*^9, 3.575517733547375*^9}, {
+   3.575640865330595*^9, 3.575640865342596*^9}, {3.5756412643244905`*^9, 
+   3.575641266355694*^9}, {3.575662619197249*^9, 3.57566267760172*^9}, {
+   3.5757264487624416`*^9, 3.5757264573382993`*^9}, {3.5757288527268143`*^9, 
+   3.5757289303375745`*^9}, {3.575729276136151*^9, 3.575729304385976*^9}},
+ CellID->316075674],
+
+Cell["\<\
+The author would like to thank S\[ODoubleDot]ren Petrat and the team at the \
+department of mathematics of the Ludwig-Maximilians-University Munich \
+(workgroup Bohmian Mechanics) for their helpful suggestions. \
+\>", "DetailNotes",
+ CellChangeTimes->{{3.575167317504812*^9, 3.575167352183672*^9}, {
+   3.575167393757745*^9, 3.5751674513530455`*^9}, 3.5751674882471094`*^9, {
+   3.575167547808013*^9, 3.575167548712815*^9}, {3.5751676018153076`*^9, 
+   3.575167644481382*^9}, {3.5751680266108484`*^9, 3.575168040182872*^9}, {
+   3.5751781347806*^9, 3.5751781447178173`*^9}, {3.5757293320587425`*^9, 
+   3.5757293616116977`*^9}, {3.575729401453681*^9, 3.5757294053660727`*^9}},
+ CellID->424770794],
+
+Cell["References", "DetailNotes",
+ CellChangeTimes->{{3.5731947670035305`*^9, 3.573194785177562*^9}, {
+   3.5731948411514597`*^9, 3.57319484116706*^9}, {3.5731948742391176`*^9, 
+   3.5731948742391176`*^9}, {3.5731949056575727`*^9, 
+   3.5731949056575727`*^9}, {3.573195551333099*^9, 3.573195561753917*^9}, {
+   3.5731973368420906`*^9, 3.5731973512565155`*^9}, {3.5731973940461874`*^9, 
+   3.573197423396228*^9}, 3.573197539643799*^9, {3.573285518923649*^9, 
+   3.573285522012454*^9}, {3.5733538215514746`*^9, 3.5733538387115045`*^9}, {
+   3.573698002008193*^9, 3.5736980309618435`*^9}, {3.5736982180841703`*^9, 
+   3.5736982902654963`*^9}, {3.575167303511587*^9, 3.5751673075519943`*^9}, {
+   3.5751686754907427`*^9, 3.575168680685551*^9}, {3.575168772179711*^9, 
+   3.575168772522911*^9}, {3.5751690624650173`*^9, 3.5751690635882187`*^9}, {
+   3.5751781585862417`*^9, 3.575178161519047*^9}, {3.575178247549997*^9, 
+   3.5751782515280037`*^9}, {3.575517729350968*^9, 3.575517733547375*^9}, {
+   3.575640865330595*^9, 3.575640866313693*^9}, {3.5757289061681576`*^9, 
+   3.575728906170158*^9}},
+ CellID->73913571],
+
+Cell[TextData[{
+ "[1] K. von Bloh. ",
+ StyleBox["Quantum Time-Dependent Perturbation Theory of the Infinite \
+Potential Wall",
+  FontSlant->"Italic"],
+ ". [Video]. (Apr 23, 2013) ",
+ ButtonBox["www.youtube.com/watch?v=q5eQf-aecfA",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://www.youtube.com/watch?v=q5eQf-aecfA"], None},
+  ButtonNote->"http://www.youtube.com/watch?v=q5eQf-aecfA"],
+ "."
+}], "DetailNotes",
+ CellChangeTimes->{{3.5731947670035305`*^9, 3.573194785177562*^9}, {
+   3.5731948411514597`*^9, 3.57319484116706*^9}, {3.5731948742391176`*^9, 
+   3.5731948742391176`*^9}, {3.5731949056575727`*^9, 
+   3.5731949056575727`*^9}, {3.573195551333099*^9, 3.573195561753917*^9}, {
+   3.5731973368420906`*^9, 3.5731973512565155`*^9}, {3.5731973940461874`*^9, 
+   3.573197423396228*^9}, 3.573197539643799*^9, {3.573285518923649*^9, 
+   3.573285522012454*^9}, {3.5733538215514746`*^9, 3.5733538387115045`*^9}, {
+   3.573698002008193*^9, 3.5736980309618435`*^9}, {3.5736982180841703`*^9, 
+   3.5736982902654963`*^9}, {3.575167303511587*^9, 3.5751673075519943`*^9}, {
+   3.5751686754907427`*^9, 3.575168680685551*^9}, {3.575168772179711*^9, 
+   3.575168772522911*^9}, {3.5751690624650173`*^9, 3.5751690635882187`*^9}, {
+   3.5751781585862417`*^9, 3.575178161519047*^9}, {3.575178247549997*^9, 
+   3.5751782515280037`*^9}, {3.575517729350968*^9, 3.575517733547375*^9}, {
+   3.575640865330595*^9, 3.575640866313693*^9}, {3.5757289061681576`*^9, 
+   3.575728908977439*^9}, {3.5757294110136375`*^9, 3.575729429726508*^9}, {
+   3.575729463576893*^9, 3.575729467488284*^9}, {3.5757294993454695`*^9, 
+   3.5757295584843826`*^9}},
+ CellID->304348318],
+
+Cell[TextData[{
+ "[2] C. Dewdney and M. M. Lam, \"What Happens During a Quantum \
+Transition?,\" ",
+ StyleBox["Information Dynamics",
+  FontSlant->"Italic"],
+ " (H. Atmanspacher and H. Scheingraber, eds.), New York: Plenum Press, 1991."
+}], "DetailNotes",
+ CellChangeTimes->{{3.5731947670035305`*^9, 3.573194785177562*^9}, {
+   3.5731948411514597`*^9, 3.57319484116706*^9}, {3.5731948742391176`*^9, 
+   3.5731948742391176`*^9}, {3.5731949056575727`*^9, 
+   3.5731949056575727`*^9}, {3.573195551333099*^9, 3.573195561753917*^9}, {
+   3.5731973368420906`*^9, 3.5731973512565155`*^9}, {3.5731973940461874`*^9, 
+   3.573197423396228*^9}, 3.573197539643799*^9, {3.573285518923649*^9, 
+   3.573285522012454*^9}, {3.5733538215514746`*^9, 3.5733538387115045`*^9}, {
+   3.573698002008193*^9, 3.5736980309618435`*^9}, {3.5736982180841703`*^9, 
+   3.5736982902654963`*^9}, {3.575167303511587*^9, 3.5751673075519943`*^9}, {
+   3.5751686754907427`*^9, 3.575168680685551*^9}, {3.575168772179711*^9, 
+   3.575168772522911*^9}, {3.5751690624650173`*^9, 3.5751690635882187`*^9}, {
+   3.5751781585862417`*^9, 3.575178161519047*^9}, {3.575178247549997*^9, 
+   3.5751782515280037`*^9}, {3.575517729350968*^9, 3.575517733547375*^9}, {
+   3.575640865330595*^9, 3.575640868649927*^9}, {3.5757289111766586`*^9, 
+   3.5757289112086616`*^9}},
+ CellID->125421885],
+
+Cell[TextData[{
+ "[3] S. Goldstein. \"Bohmian Mechanics.\" ",
+ StyleBox["The Stanford Encyclopedia of Philosophy",
+  FontSlant->"Italic"],
+ ". (Mar 29, 2013)",
+ ButtonBox[" plato.stanford.edu/entries/qm-bohm",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://plato.stanford.edu/entries/qm-bohm/"], None},
+  ButtonNote->"http://plato.stanford.edu/entries/qm-bohm/"],
+ "."
+}], "DetailNotes",
+ CellChangeTimes->{{3.5731947670035305`*^9, 3.573194785177562*^9}, {
+   3.5731948411514597`*^9, 3.57319484116706*^9}, {3.5731948742391176`*^9, 
+   3.5731948742391176`*^9}, {3.5731949056575727`*^9, 
+   3.5731949056575727`*^9}, {3.573195551333099*^9, 3.573195561753917*^9}, {
+   3.5731973368420906`*^9, 3.5731973512565155`*^9}, {3.5731973940461874`*^9, 
+   3.573197423396228*^9}, 3.573197539643799*^9, {3.573285518923649*^9, 
+   3.573285522012454*^9}, {3.5733538215514746`*^9, 3.5733538387115045`*^9}, {
+   3.573698002008193*^9, 3.5736980309618435`*^9}, {3.5736982180841703`*^9, 
+   3.5736982902654963`*^9}, {3.575167303511587*^9, 3.5751673075519943`*^9}, {
+   3.5751686754907427`*^9, 3.575168680685551*^9}, {3.575168772179711*^9, 
+   3.575168772522911*^9}, {3.5751690624650173`*^9, 3.5751690635882187`*^9}, {
+   3.5751781585862417`*^9, 3.575178161519047*^9}, {3.575178247549997*^9, 
+   3.5751782515280037`*^9}, {3.575517729350968*^9, 3.575517733547375*^9}, {
+   3.575640865330595*^9, 3.5756408783768997`*^9}, {3.5757289150010405`*^9, 
+   3.5757289150250435`*^9}, {3.57572896939548*^9, 3.575728969683509*^9}},
+ CellID->500404540],
+
+Cell[TextData[{
+ "[4] Bohmian-Mechanics.net. (Mar 29, 2013) ",
+ ButtonBox["www.bohmian-mechanics.net/index.html",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://www.bohmian-mechanics.net/index.html"], 
+    "http://www.bohmian-mechanics.net/index.html"},
+  ButtonNote->"http://www.bohmian-mechanics.net/index.html"],
+ "."
+}], "DetailNotes",
+ CellChangeTimes->{{3.5731947670035305`*^9, 3.573194785177562*^9}, {
+   3.5731948411514597`*^9, 3.57319484116706*^9}, {3.5731948742391176`*^9, 
+   3.5731948742391176`*^9}, {3.5731949056575727`*^9, 
+   3.5731949056575727`*^9}, {3.573195551333099*^9, 3.573195561753917*^9}, {
+   3.5731973368420906`*^9, 3.5731973512565155`*^9}, {3.5731973940461874`*^9, 
+   3.573197423396228*^9}, 3.573197539643799*^9, {3.573285518923649*^9, 
+   3.573285522012454*^9}, {3.5733538215514746`*^9, 3.5733538387115045`*^9}, {
+   3.573698002008193*^9, 3.5736980309618435`*^9}, {3.5736982180841703`*^9, 
+   3.5736982902654963`*^9}, {3.575167303511587*^9, 3.5751673075519943`*^9}, {
+   3.5751686754907427`*^9, 3.575168680685551*^9}, {3.575168772179711*^9, 
+   3.575168772522911*^9}, {3.5751690624650173`*^9, 3.5751690635882187`*^9}, {
+   3.5751781585862417`*^9, 3.575178161519047*^9}, {3.575178247549997*^9, 
+   3.5751782515280037`*^9}, {3.575517729350968*^9, 3.575517733547375*^9}, {
+   3.575640865330595*^9, 3.575640880393101*^9}, 3.5756414524164214`*^9, {
+   3.575728917441285*^9, 3.5757289175292935`*^9}, {3.5757289884443846`*^9, 
+   3.5757290091164513`*^9}, {3.575729999951525*^9, 3.575730060641594*^9}},
+ CellID->104367282],
+
+Cell[TextData[{
+ "[5] Wikipedia. \"Crank-Nicolson Method.\" (Mar 29, 2013) ",
+ ButtonBox["en.wikipedia.org/wiki/Crank-Nicolson_method",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://en.wikipedia.org/wiki/Crank-Nicolson_method"], None},
+  ButtonNote->"http://en.wikipedia.org/wiki/Crank-Nicolson_method"],
+ "."
+}], "DetailNotes",
+ CellChangeTimes->{{3.5731947670035305`*^9, 3.573194785177562*^9}, {
+   3.5731948411514597`*^9, 3.57319484116706*^9}, {3.5731948742391176`*^9, 
+   3.5731948742391176`*^9}, {3.5731949056575727`*^9, 
+   3.5731949056575727`*^9}, {3.573195551333099*^9, 3.573195561753917*^9}, {
+   3.5731973368420906`*^9, 3.5731973512565155`*^9}, {3.5731973940461874`*^9, 
+   3.573197423396228*^9}, 3.573197539643799*^9, {3.573285518923649*^9, 
+   3.573285522012454*^9}, {3.5733538215514746`*^9, 3.5733538387115045`*^9}, {
+   3.573698002008193*^9, 3.5736980309618435`*^9}, {3.5736982180841703`*^9, 
+   3.5736982902654963`*^9}, {3.575167303511587*^9, 3.5751673075519943`*^9}, {
+   3.5751686754907427`*^9, 3.575168680685551*^9}, {3.575168772179711*^9, 
+   3.575168772522911*^9}, {3.5751690624650173`*^9, 3.5751690635882187`*^9}, {
+   3.5751781585862417`*^9, 3.575178161519047*^9}, {3.575178247549997*^9, 
+   3.5751782515280037`*^9}, {3.575517729350968*^9, 3.575517733547375*^9}, {
+   3.575640865330595*^9, 3.575640881960258*^9}, {3.5757289195844994`*^9, 
+   3.5757289196575065`*^9}, {3.575729016621202*^9, 3.575729016877228*^9}},
+ CellID->743569659],
+
+Cell[TextData[{
+ "[6] A. Goldberg, H. Schey, and J. L. Schwartz, \"Computer-Generated Motion \
+Pictures of One-Dimensional Quantum-Mechanical Transmission and Reflection \
+Phenomena,\" ",
+ StyleBox["American Journal of Physics",
+  FontSlant->"Italic"],
+ ", ",
+ StyleBox["35",
+  FontSize->12,
+  FontWeight->"Bold"],
+ "(3), 1967 pp. 177-186. ",
+ ButtonBox["doi:10.1119/1.1973991",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://ajp.aapt.org/resource/1/ajpias/v35/i3/p177_s1?isAuthorized=\
+no"], None},
+  ButtonNote->
+   "http://ajp.aapt.org/resource/1/ajpias/v35/i3/p177_s1?isAuthorized=no"],
+ "."
+}], "DetailNotes",
+ CellChangeTimes->{{3.5731947670035305`*^9, 3.573194785177562*^9}, {
+   3.5731948411514597`*^9, 3.57319484116706*^9}, {3.5731948742391176`*^9, 
+   3.5731948742391176`*^9}, {3.5731949056575727`*^9, 
+   3.5731949056575727`*^9}, {3.573195551333099*^9, 3.573195561753917*^9}, {
+   3.5731973368420906`*^9, 3.5731973512565155`*^9}, {3.5731973940461874`*^9, 
+   3.573197423396228*^9}, 3.573197539643799*^9, {3.573285518923649*^9, 
+   3.573285522012454*^9}, {3.5733538215514746`*^9, 3.5733538387115045`*^9}, {
+   3.573698002008193*^9, 3.5736980309618435`*^9}, {3.5736982180841703`*^9, 
+   3.5736982902654963`*^9}, {3.575167303511587*^9, 3.5751673075519943`*^9}, {
+   3.5751686754907427`*^9, 3.575168680685551*^9}, {3.575168772179711*^9, 
+   3.575168772522911*^9}, {3.5751690624650173`*^9, 3.5751690635882187`*^9}, {
+   3.5751781585862417`*^9, 3.575178161519047*^9}, {3.575178247549997*^9, 
+   3.5751782515280037`*^9}, {3.575517729350968*^9, 3.575517733547375*^9}, {
+   3.575640865330595*^9, 3.575640881956258*^9}, {3.5757289217367144`*^9, 
+   3.575728921833724*^9}, {3.5757290307976193`*^9, 3.5757290629348326`*^9}, {
+   3.575730103451874*^9, 3.5757301041079397`*^9}},
+ CellID->101816115]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "ControlSuggestionsSection"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[True], Cell[" Resize Images"]}],
+  "\"Click inside an image to reveal its orange resize frame.\\nDrag any of \
+the orange resize handles to resize the image.\"",
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.5731953309915147`*^9},
+ FontFamily->"Verdana",
+ CellTags->"ResizeImages"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Rotate and Zoom in 3D"]}],
+  RowBox[{
+   "\"Drag a 3D graphic to rotate it. Starting the drag near the center \
+tumbles\\nthe graphic; starting near a corner turns it parallel to the plane \
+of the screen.\\nHold down \"", 
+    FrameBox[
+    "Ctrl", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" (or \"", 
+    FrameBox[
+    "Cmd", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" on Mac) and drag up and down to zoom.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"RotateAndZoomIn3D"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Drag Locators"]}],
+  RowBox[{"\"Drag any locator (\"", 
+    GraphicsBox[
+     LocatorBox[
+      Scaled[{0.5, 0.5}]], ImageSize -> 20], 
+    "\", etc.) to move it around.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"DragLocators"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Create and Delete Locators"]}],
+  RowBox[{"\"Insert a new locator in the graphic by holding down the \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], 
+    "\" key\\nand clicking where you want it to be. Delete a locator by \
+clicking it\\nwhile holding down the \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" key.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"CreateAndDeleteLocators"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[True], Cell[" Slider Zoom"]}],
+  RowBox[{"\"Hold down the \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], 
+    "\" key while moving a slider to make fine adjustments in the slider \
+value.\\nHold \"", 
+    FrameBox[
+    "Ctrl", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" and/or \"", 
+    FrameBox[
+    "Shift", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" at the same time as \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" to make ever finer adjustments.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.575664716878696*^9},
+ FontFamily->"Verdana",
+ CellTags->"SliderZoom"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[True], Cell[" Gamepad Controls"]}],
+  "\"Control this Demonstration with a gamepad or other\\nhuman interface \
+device connected to your computer.\"",
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.35696210375764*^9, 3.3895522232313623`*^9, 
+  3.5756647177450037`*^9},
+ FontFamily->"Verdana",
+ CellTags->"GamepadControls"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[True], Cell[" Automatic Animation"]}],
+  RowBox[{"\"Animate a slider in this Demonstration by clicking the\"", 
+    AdjustmentBox[
+     Cell[
+      GraphicsData[
+      "CompressedBitmap", 
+       "eJzzTSzJSM1NLMlMTlRwL0osyMhMLlZwyy8CCjEzMjAwcIKwAgOI/R/IhBKc\n\
+/4EAyGAG0f+nTZsGwgysIJIRKsWKLAXGIHFmEpUgLADxWUAkI24jZs+eTaEt\n\
+IG+wQKRmzJgBlYf5lhEA30OqWA=="], "Graphics", ImageSize -> {9, 9}, ImageMargins -> 
+      0, CellBaseline -> Baseline], BoxBaselineShift -> 0.1839080459770115, 
+     BoxMargins -> {{0., 0.}, {-0.1839080459770115, 0.1839080459770115}}], 
+    "\"button\\nnext to the slider, and then clicking the play button that \
+appears.\\nAnimate all controls by selecting \"", 
+    StyleBox["Autorun", FontWeight -> "Bold"], "\" from the\"", 
+    AdjustmentBox[
+     Cell[
+      GraphicsData[
+      "CompressedBitmap", 
+       "eJyNULENwyAQfEySIlMwTVJlCGRFsosokeNtqBmDBagoaZjAI1C8/8GUUUC6\n\
+57h7cQ8PvU7Pl17nUav7oj/TPH7V7b2QJAUAXBkKmCPRowxICy64bRvGGNF7\n\
+X8CctGoDSN4xhIDGGDhzFXwUh3/ClBKrDQPmnGXtI6u0OOd+tZBVUqy1xSaH\n\
+UqiK6pPe4XdEdAz6563tx/gejuORGMxJaz8mdpJn7hc="], "Graphics", 
+      ImageSize -> {10, 10}, ImageMargins -> 0, CellBaseline -> Baseline], 
+     BoxBaselineShift -> 0.1839080459770115, 
+     BoxMargins -> {{0., 0.}, {-0.1839080459770115, 0.1839080459770115}}], 
+    "\"menu.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.575664718599947*^9},
+ FontFamily->"Verdana",
+ CellTags->"AutomaticAnimation"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Bookmark Animation"]}],
+  RowBox[{
+   "\"See a prepared animation of this Demonstration by selecting\\n\"", 
+    StyleBox["Animate Bookmarks", FontWeight -> "Bold"], "\" from the\"", 
+    AdjustmentBox[
+     Cell[
+      GraphicsData[
+      "CompressedBitmap", 
+       "eJyNULENwyAQfEySIlMwTVJlCGRFsosokeNtqBmDBagoaZjAI1C8/8GUUUC6\n\
+57h7cQ8PvU7Pl17nUav7oj/TPH7V7b2QJAUAXBkKmCPRowxICy64bRvGGNF7\n\
+X8CctGoDSN4xhIDGGDhzFXwUh3/ClBKrDQPmnGXtI6u0OOd+tZBVUqy1xSaH\n\
+UqiK6pPe4XdEdAz6563tx/gejuORGMxJaz8mdpJn7hc="], "Graphics", 
+      ImageSize -> {10, 10}, ImageMargins -> 0, CellBaseline -> Baseline], 
+     BoxBaselineShift -> 0.1839080459770115, 
+     BoxMargins -> {{0., 0.}, {-0.1839080459770115, 0.1839080459770115}}], 
+    "\"menu.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"BookmarkAnimation"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "SearchTermsSection"],
+
+Cell["wave - particle - duality", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4298721373364544`*^9, 3.4298721433364544`*^9}, 
+   3.429872624669389*^9, {3.430357071422522*^9, 3.430357080578772*^9}, {
+   3.430357133110022*^9, 3.430357133391272*^9}, {3.430357641797522*^9, 
+   3.430357642938147*^9}, {3.431164994266136*^9, 3.4311650080317616`*^9}, {
+   3.4311716804302664`*^9, 3.4311716851497383`*^9}},
+ CellID->813524953],
+
+Cell["quantum trajectories", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4298721444458294`*^9, 3.4298721502114544`*^9}, 
+   3.429872625888139*^9, {3.431171688611084*^9, 3.4311716887741003`*^9}},
+ CellID->656753363],
+
+Cell["causal interpretation of quantum theory", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4298721515552044`*^9, 3.4298721714614544`*^9}, 
+   3.429872627216264*^9, {3.431171690362259*^9, 3.4311716904682703`*^9}},
+ CellID->3627545],
+
+Cell["David Bohm", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4298721725395794`*^9, 3.4298721773208294`*^9}},
+ CellID->199354085],
+
+Cell["quantum potential", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4298721785708294`*^9, 3.4298721913208294`*^9}, {
+   3.4298723303989544`*^9, 3.4298723356645794`*^9}, {3.4298725412114544`*^9, 
+   3.4298725412114544`*^9}, 3.429872631278764*^9, {3.430357626438147*^9, 
+   3.430357638610022*^9}, {3.431171692545478*^9, 3.4311716926554885`*^9}},
+ CellID->11530878],
+
+Cell["Bohmian dynamics", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4298725427895794`*^9, 3.4298725476177044`*^9}},
+ CellID->24570043],
+
+Cell["de Broglie Bohm interpretation", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.459228602257538*^9, 3.4592286022731624`*^9}},
+ CellID->599069990],
+
+Cell["Bohm trajectories", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.463630691220048*^9, 3.463630696704423*^9}, {
+   3.4651824347188997`*^9, 3.4651824347345247`*^9}},
+ CellID->83487153],
+
+Cell["pilot wave theory", "SearchTerms",
+ CellID->314279723],
+
+Cell["ontological interpretation", "SearchTerms",
+ CellChangeTimes->{3.54804836013424*^9},
+ CellID->57954081],
+
+Cell["hidden variables", "SearchTerms",
+ CellChangeTimes->{{3.5480483430366106`*^9, 3.5480483596350393`*^9}, {
+  3.5698111828998637`*^9, 3.5698111829154634`*^9}},
+ CellID->31817379],
+
+Cell["active information", "SearchTerms",
+ CellChangeTimes->{{3.5480483430366106`*^9, 3.5480483596350393`*^9}, {
+  3.5698111828998637`*^9, 3.5698111896546755`*^9}},
+ CellID->148771107],
+
+Cell["photoelectric effect", "SearchTerms",
+ CellID->7869810],
+
+Cell["excited quantum state", "SearchTerms",
+ CellChangeTimes->{{3.57353122792028*^9, 3.5735312355330935`*^9}},
+ CellID->67836208],
+
+Cell["correspondence principle", "SearchTerms",
+ CellChangeTimes->{{3.5735325669714155`*^9, 3.5735325676578164`*^9}},
+ CellID->47943659]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "RelatedLinksSection"],
+
+Cell[TextData[ButtonBox["Bohm, David Joseph",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://scienceworld.wolfram.com/biography/Bohm.html"], None},
+ ButtonNote->
+  "http://scienceworld.wolfram.com/biography/Bohm.html"]], "RelatedLinks",
+ CellChangeTimes->{{3.569733398827333*^9, 3.569733424520578*^9}, 
+   3.5698106120002685`*^9, 3.56989988365825*^9, {3.5698999160751066`*^9, 
+   3.5698999160907063`*^9}, {3.5698999617675858`*^9, 
+   3.5698999617675858`*^9}, {3.5756409185809193`*^9, 3.575640922818343*^9}},
+ CellID->297967564],
+
+Cell[TextData[ButtonBox["de Broglie Wavelength",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://scienceworld.wolfram.com/physics/deBroglieWavelength.html"], 
+   None},
+ ButtonNote->
+  "http://scienceworld.wolfram.com/physics/deBroglieWavelength.html"]], \
+"RelatedLinks",
+ CellChangeTimes->{{3.5756409884889097`*^9, 3.575641002332294*^9}},
+ CellID->810497643],
+
+Cell[TextData[ButtonBox["Double Slit Interference",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://scienceworld.wolfram.com/physics/DoubleSlitInterference.html"],
+    None},
+ ButtonNote->
+  "http://scienceworld.wolfram.com/physics/DoubleSlitInterference.html"]], \
+"RelatedLinks",
+ CellChangeTimes->{{3.5756410990199614`*^9, 3.575641099022962*^9}},
+ CellID->10597025],
+
+Cell[TextData[ButtonBox["Particle",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://scienceworld.wolfram.com/physics/Particle.html"], None},
+ ButtonNote->
+  "http://scienceworld.wolfram.com/physics/Particle.html"]], "RelatedLinks",
+ CellChangeTimes->{{3.575641063211381*^9, 3.5756410729453545`*^9}},
+ CellID->98397008],
+
+Cell[TextData[ButtonBox["Probability Density Distribution for Electron \
+Scattering",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://demonstrations.wolfram.com/\
+ProbabilityDensityDistributionForElectronScattering/"], None},
+ ButtonNote->
+  "http://demonstrations.wolfram.com/\
+ProbabilityDensityDistributionForElectronScattering/"]], "RelatedLinks",
+ CellChangeTimes->{{3.5756411976468234`*^9, 3.5756411976558247`*^9}},
+ CellID->623796121],
+
+Cell[TextData[ButtonBox["Schr\[ODoubleDot]dinger Equation",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://mathworld.wolfram.com/SchroedingerEquation.html"], None},
+ ButtonNote->
+  "http://mathworld.wolfram.com/SchroedingerEquation.html"]], "RelatedLinks",
+ CellChangeTimes->{{3.5703344523423634`*^9, 3.5703345283897133`*^9}, {
+  3.575640924198481*^9, 3.5756409259896603`*^9}},
+ CellID->399833462]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "AuthorSection"],
+
+Cell[TextData[{
+ "Contributed by: ",
+ ButtonBox["Klaus von Bloh",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://demonstrations.wolfram.com/author.html?author=Klaus+von+Bloh"]\
+, None},
+  ButtonNote->
+   "http://demonstrations.wolfram.com/author.html?author=Klaus+von+Bloh"]
+}], "Author",
+ CellChangeTimes->{{3.5731949315224175`*^9, 3.573194945812042*^9}, {
+  3.5751668550878057`*^9, 3.575166860001814*^9}, {3.5751781236109805`*^9, 
+  3.575178125623384*^9}}],
+
+Cell[TextData[{
+ "Suggested by: ",
+ ButtonBox["Chris Dewdney",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://demonstrations.wolfram.com/author.html?author=Chris+Dewdney"],
+     None},
+  ButtonNote->
+   "http://demonstrations.wolfram.com/author.html?author=Chris+Dewdney"]
+}], "Author",
+ CellChangeTimes->{{3.5731949315224175`*^9, 3.5731949462176433`*^9}, 
+   3.5731950844486847`*^9},
+ CellID->261066887],
+
+Cell[TextData[{
+ "Based on a program by: ",
+ ButtonBox["Enrique Zeleny",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://demonstrations.wolfram.com/author.html?author=Enrique+Zeleny"]\
+, None},
+  ButtonNote->
+   "http://demonstrations.wolfram.com/author.html?author=Enrique+Zeleny"],
+ " and ",
+ ButtonBox["Paul Nylander",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://demonstrations.wolfram.com/author.html?author=Paul+Nylander"],
+     None},
+  ButtonNote->
+   "http://demonstrations.wolfram.com/author.html?author=Paul+Nylander"]
+}], "Author",
+ CellChangeTimes->{{3.5756412199710555`*^9, 3.575641242467305*^9}},
+ CellID->176827587]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{863, 882},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (January 25, 2013)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Demonstration.nb", 
+  CharacterEncoding -> "WindowsANSI"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "AutomaticAnimation"->{
+  Cell[118979, 2301, 1505, 32, 22, "ControlSuggestions",
+   CellTags->"AutomaticAnimation"]},
+ "BookmarkAnimation"->{
+  Cell[120487, 2335, 908, 21, 22, "ControlSuggestions",
+   CellTags->"BookmarkAnimation"]},
+ "CreateAndDeleteLocators"->{
+  Cell[117053, 2248, 637, 15, 22, "ControlSuggestions",
+   CellTags->"CreateAndDeleteLocators"]},
+ "DragLocators"->{
+  Cell[116710, 2235, 340, 11, 22, "ControlSuggestions",
+   CellTags->"DragLocators"]},
+ "GamepadControls"->{
+  Cell[118581, 2289, 395, 10, 22, "ControlSuggestions",
+   CellTags->"GamepadControls"]},
+ "ResizeImages"->{
+  Cell[115671, 2206, 355, 9, 22, "ControlSuggestions",
+   CellTags->"ResizeImages"]},
+ "RotateAndZoomIn3D"->{
+  Cell[116029, 2217, 678, 16, 22, "ControlSuggestions",
+   CellTags->"RotateAndZoomIn3D"]},
+ "SliderZoom"->{
+  Cell[117693, 2265, 885, 22, 22, "ControlSuggestions",
+   CellTags->"SliderZoom"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"AutomaticAnimation", 128888, 2578},
+ {"BookmarkAnimation", 129006, 2581},
+ {"CreateAndDeleteLocators", 129128, 2584},
+ {"DragLocators", 129245, 2587},
+ {"GamepadControls", 129354, 2590},
+ {"ResizeImages", 129463, 2593},
+ {"RotateAndZoomIn3D", 129573, 2596},
+ {"SliderZoom", 129682, 2599}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 246, 4, 104, "DemoTitle"],
+Cell[828, 28, 33, 0, 287, "InitializationSection"],
+Cell[CellGroupData[{
+Cell[886, 32, 29, 0, 194, "ManipulateSection"],
+Cell[CellGroupData[{
+Cell[940, 36, 24604, 513, 1410, "Input"],
+Cell[25547, 551, 10178, 191, 563, "Output",
+ CellID->711759643]
+}, {2}]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[35771, 748, 36, 0, 169, "ManipulateCaptionSection"],
+Cell[35810, 750, 8721, 171, 240, "ManipulateCaption"],
+Cell[44534, 923, 4994, 70, 52, "ManipulateCaption",
+ CellID->157622183],
+Cell[49531, 995, 5520, 80, 83, "ManipulateCaption",
+ CellID->190854812],
+Cell[55054, 1077, 5252, 76, 68, "ManipulateCaption",
+ CellID->7811953]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[60343, 1158, 28, 0, 173, "ThumbnailSection"],
+Cell[60374, 1160, 10179, 191, 563, "Output",
+ CellID->1060406111]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[70590, 1356, 28, 0, 143, "SnapshotsSection"],
+Cell[70621, 1358, 10156, 189, 563, "Output",
+ CellID->278721124],
+Cell[80780, 1549, 10330, 194, 563, "Output",
+ CellID->804096961],
+Cell[91113, 1745, 10258, 192, 563, "Output",
+ CellID->343032956]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[101408, 1942, 26, 0, 336, "DetailsSection"],
+Cell[101437, 1944, 1345, 21, 37, "DetailNotes",
+ CellID->393770319],
+Cell[102785, 1967, 1629, 24, 52, "DetailNotes",
+ CellID->316075674],
+Cell[104417, 1993, 706, 11, 37, "DetailNotes",
+ CellID->424770794],
+Cell[105126, 2006, 1111, 16, 22, "DetailNotes",
+ CellID->73913571],
+Cell[106240, 2024, 1651, 30, 37, "DetailNotes",
+ CellID->304348318],
+Cell[107894, 2056, 1336, 22, 37, "DetailNotes",
+ CellID->125421885],
+Cell[109233, 2080, 1526, 27, 37, "DetailNotes",
+ CellID->500404540],
+Cell[110762, 2109, 1553, 26, 22, "DetailNotes",
+ CellID->104367282],
+Cell[112318, 2137, 1467, 24, 22, "DetailNotes",
+ CellID->743569659],
+Cell[113788, 2163, 1806, 36, 52, "DetailNotes",
+ CellID->101816115]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[115631, 2204, 37, 0, 126, "ControlSuggestionsSection"],
+Cell[115671, 2206, 355, 9, 22, "ControlSuggestions",
+ CellTags->"ResizeImages"],
+Cell[116029, 2217, 678, 16, 22, "ControlSuggestions",
+ CellTags->"RotateAndZoomIn3D"],
+Cell[116710, 2235, 340, 11, 22, "ControlSuggestions",
+ CellTags->"DragLocators"],
+Cell[117053, 2248, 637, 15, 22, "ControlSuggestions",
+ CellTags->"CreateAndDeleteLocators"],
+Cell[117693, 2265, 885, 22, 22, "ControlSuggestions",
+ CellTags->"SliderZoom"],
+Cell[118581, 2289, 395, 10, 22, "ControlSuggestions",
+ CellTags->"GamepadControls"],
+Cell[118979, 2301, 1505, 32, 22, "ControlSuggestions",
+ CellTags->"AutomaticAnimation"],
+Cell[120487, 2335, 908, 21, 22, "ControlSuggestions",
+ CellTags->"BookmarkAnimation"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[121432, 2361, 30, 0, 155, "SearchTermsSection"],
+Cell[121465, 2363, 436, 7, 22, "SearchTerms",
+ CellID->813524953],
+Cell[121904, 2372, 231, 4, 22, "SearchTerms",
+ CellID->656753363],
+Cell[122138, 2378, 248, 4, 22, "SearchTerms",
+ CellID->3627545],
+Cell[122389, 2384, 147, 3, 22, "SearchTerms",
+ CellID->199354085],
+Cell[122539, 2389, 381, 6, 22, "SearchTerms",
+ CellID->11530878],
+Cell[122923, 2397, 152, 3, 22, "SearchTerms",
+ CellID->24570043],
+Cell[123078, 2402, 165, 3, 22, "SearchTerms",
+ CellID->599069990],
+Cell[123246, 2407, 203, 4, 22, "SearchTerms",
+ CellID->83487153],
+Cell[123452, 2413, 60, 1, 22, "SearchTerms",
+ CellID->314279723],
+Cell[123515, 2416, 109, 2, 22, "SearchTerms",
+ CellID->57954081],
+Cell[123627, 2420, 181, 3, 22, "SearchTerms",
+ CellID->31817379],
+Cell[123811, 2425, 184, 3, 22, "SearchTerms",
+ CellID->148771107],
+Cell[123998, 2430, 61, 1, 22, "SearchTerms",
+ CellID->7869810],
+Cell[124062, 2433, 130, 2, 22, "SearchTerms",
+ CellID->67836208],
+Cell[124195, 2437, 136, 2, 22, "SearchTerms",
+ CellID->47943659]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[124368, 2444, 31, 0, 141, "RelatedLinksSection"],
+Cell[124402, 2446, 535, 10, 22, "RelatedLinks",
+ CellID->297967564],
+Cell[124940, 2458, 367, 9, 22, "RelatedLinks",
+ CellID->810497643],
+Cell[125310, 2469, 375, 9, 22, "RelatedLinks",
+ CellID->10597025],
+Cell[125688, 2480, 325, 7, 22, "RelatedLinks",
+ CellID->98397008],
+Cell[126016, 2489, 448, 10, 22, "RelatedLinks",
+ CellID->623796121],
+Cell[126467, 2501, 405, 8, 22, "RelatedLinks",
+ CellID->399833462]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[126909, 2514, 25, 0, 141, "AuthorSection"],
+Cell[126937, 2516, 469, 12, 22, "Author"],
+Cell[127409, 2530, 415, 12, 22, "Author",
+ CellID->261066887],
+Cell[127827, 2544, 654, 19, 22, "Author",
+ CellID->176827587]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

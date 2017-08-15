@@ -1,0 +1,131 @@
+labels = {}
+with open('/home/junlinux/Desktop/INF552/HW3/Final_data/col_label.txt', 'r') as reader:
+    for line in reader:
+        labels[line.strip('\n')] = np.float64
+        
+labels['bad_health'] = np.float64
+
+data_all_test = pd.read_csv("/home/junlinux/Desktop/INF552/HW3/Final_data/merged_all_data_test_02.csv",dtype=labels, usecols=labels)
+#Train_X_all = data_all_test.drop(['bad_health_range', 'tract_id', 'bad_health', 'population', 'Nof5CategoryCrime', 'NofOtherCrime', 'midnightCrime', 'morningCrime', 'dayCrime','nightCrime'],axis = 1)
+#Class_Y_all = data_all_test['bad_health_range']
+#tract_id = data_all_test['tract_id']
+
+n_base = {'victm': 'v_',
+'status':'status_code_',
+'month':'month_',
+'premise':'p_',
+'weapon':'w_',
+'crime_code':'c_',
+'time':'time_',
+'district':'dist_',
+'mocode':'mocode_',
+'age':'age_',
+'sex':'sex_',
+'area':'area_',
+}
+data_name = {}
+for k in n_base.keys():
+    idxes = list(data_all_test.columns.values)
+    data_name[k] = [x for x in idxes if x.find(n_base[k]) != -1]
+    
+for k in data_name.keys():
+    print('{} > {}'.format(k, data_name[k]))
+    
+class_label = ['1', '2', '3', '4', '5', '6', '7']
+cls_sep = {}
+for cls in class_label:
+    class_data = data_all_test.query('bad_health_range == {}'.format(cls))    
+    for dn in data_name.keys():
+        #cls_sep[ dn+'_c'+cls ] = class_data[data_name[dn]]
+        cls_sep[ dn+'_c'+cls ] = class_data[data_name[dn]].values
+   
+   
+keys = sorted([x for x in cls_sep.keys()])
+key_by_data = {}
+for j in range(12):
+    #print(i)
+    i = j*7
+    #print(keys[i], keys[i+1], keys[i+2], keys[i+3], keys[i+4], keys[i+5], keys[i+6])
+    key_by_data[j] =[keys[i], keys[i+1], keys[i+2], keys[i+3], keys[i+4], keys[i+5], keys[i+6]]
+    
+    
+import itertools as iter
+cnt = 1
+sel_dic = {}
+for k in key_by_data.keys():
+    #print(k)
+    for x in iter.permutations(key_by_data[k], 2):
+        #print(cnt, x)
+        sel_dic[cnt] = list(x)
+        cnt += 1
+        
+        
+from scipy import stats
+
+def do_t_test_2D(cls, sel):
+    """
+        cls = dataset dictionary
+        sel = combination tuple
+    """
+    res = stats.ttest_ind(cls[ sel[0] ], cls[ sel[1] ], equal_var=False, nan_policy='omit')
+    print('<{}> Statistics: {}  Pvalue: {}'.format(sel, res[0], res[1]))
+    #print(res)
+    return (
+        '<{}> Statistics: {}  Pvalue: {}'.format(sel, res[0], res[1])
+        , sel
+        , res[0]
+        , res[1]
+        , res
+    )
+
+
+
+import sys
+ttest_result = []
+cnt = 1
+for sel in sel_dic.keys():
+    print(cnt, ' ', sel_dic[sel])
+    cnt += 1
+    try:
+        ttest_result.append(do_t_test(cls_sep, sel_dic[sel]))
+    except Exception as inst:
+        print('{} failed'.format(cnt))
+        #print("Unexpected error:", sys.exc_info()[0])
+        print(type(inst))
+        print(inst.args)
+        print(inst)
+        
+        
+ols_result = {}
+y = data_all_test['bad_health_range']
+for k in data_name.keys():
+    X = data_all_test[data_name[k]]
+    X2 = sm.add_constant(X)
+    est = sm.OLS(y, X2)
+    est2 = est.fit()
+    ols_result[k] = est2.summary()
+
+
+        
+        
+
+
+
+        
+    
+    
+   
+   
+   
+   
+   
+        
+
+
+
+
+
+
+
+
+    

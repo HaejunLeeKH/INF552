@@ -106,8 +106,107 @@ for k in data_name.keys():
     ols_result[k] = est2.summary()
 
 
-        
-        
+# fancyimpute part
+
+
+import pandas
+import numpy as np
+
+dtype2={'DR Number':np.int64,
+ 'Date Reported':np.str_,
+ 'Date Occurred': np.str_,
+ 'Time Occurred':np.int64,
+ 'Area ID':np.int64,
+ 'Area Name': np.str_,
+ 'Reporting District':np.int64,
+ 'Crime Code':np.int64,
+ 'Crime Code Description': np.str_,
+ 'MO Codes': np.str_,
+ 'Victim Age':np.str_,
+ 'Victim Sex': np.str_,
+ 'Victim Descent': np.str_,
+ 'Premise Code':np.str_,
+ 'Premise Description': np.str_,
+ 'Weapon Used Code':np.str_,
+ 'Weapon Description':np.str_,
+ 'Status Code': np.str_,
+ 'Status Description': np.str_,
+ 'Crime Code 1':np.str_,
+ 'Crime Code 2':np.str_,
+ 'Crime Code 3':np.str_,
+ 'Crime Code 4':np.str_,
+ 'Address':np.str_,
+ 'Cross Street': np.str_,
+ 'Location ': np.str_,
+ 'tract_id':np.int64,
+ 'GeoLocation': np.str_,
+ 'bad_health_range': np.int64
+       }
+
+all_data = pandas.read_csv("/home/junlinux/Desktop/INF552/HW3/crime_tract_geo_test03.csv", dtype=dtype2)
+
+labels = [
+'Date Occurred',
+'Time Occurred',
+'Area ID',
+#Area Name                 False
+'Reporting District',
+'Crime Code',
+#Crime Code Description    False
+'MO Codes',
+'Victim Age',
+'Victim Sex',
+'Victim Descent',
+'Premise Code',
+#Premise Description        True
+'Weapon Used Code',
+#Weapon Description         True
+'Status Code',
+#Status Description        False
+'Address',
+'Location',
+#'tract_id'
+#bad_health_range          False
+]
+null_label = ['MO Codes','Victim Age','Victim Sex','Victim Descent','Premise Code',
+'Weapon Used Code']
+
+temp_df = all_data[labels]
+
+
+
+from collections import defaultdict
+from sklearn.preprocessing import Imputer
+from sklearn import preprocessing
+import numpy as np
+
+temp_none = temp_df.where((pd.notnull(temp_df)), "NaN")
+
+d = defaultdict(preprocessing.LabelEncoder)
+#fit = temp_none.apply(lambda x: d[x.name].fit_transform(x)).astype(np.float64)
+fit = temp_none.apply(lambda x: d[x.name].fit_transform(x))
+temp_fit = pd.DataFrame(fit).astype(float)
+nan_location = temp_df.isnull().stack()[lambda x: x].index.tolist()
+for loc in nan_location:
+    temp_fit.set_value(loc[0], loc[1], np.nan)
+    
+import fancyimpute
+from fancyimpute import SoftImpute, NuclearNormMinimization    
+
+#res = SoftImpute().complete(temp_fit.values)
+X_filled_nnm = NuclearNormMinimization().complete(temp_fit.values)
+
+imputed_pd = pd.DataFrame(res)
+imputed_pd.columns = list(fit.columns.values)
+
+for loc in nan_location:
+    #print(imputed_pd.get_value(loc[0], loc[1]))
+    v = imputed_pd.get_value(loc[0], loc[1])
+    fit.set_value(loc[0], loc[1], int(v))
+    
+fit.to_csv('/home/junlinux/Desktop/INF552/HW3/Final_data/fit_01after.csv')    
+
+imputed_SoftImpute = fit.apply(lambda x: d[x.name].inverse_transform(x))
 
 
 
